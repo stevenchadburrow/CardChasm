@@ -6,10 +6,10 @@ Deck-building linear dungeon-divering game for the NES<br>
 <table>
   <tr>
     <td>
-      <img src="CardChasmNES-GameplayA.gif">  
+      <img src="CardChasmNES-Gameplay-A.gif">  
     </td>
     <td>
-      <img src="CardChasmNES-GameplayB.gif">
+      <img src="CardChasmNES-Gameplay-B.gif">
     </td>
   </tr>
 </table><br>
