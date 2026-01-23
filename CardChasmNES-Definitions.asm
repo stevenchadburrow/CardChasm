@@ -48,71 +48,80 @@ card_shift_timer		.EQU $1B
 card_deck_position		.EQU $1C
 
 enemies_position		.EQU $1D
+enemies_max				.EQU $1E
 
-tunnel_location			.EQU $1E
-tunnel_table 			.EQU $1F
-tunnel_shift 			.EQU $20
-tunnel_scroll			.EQU $21
-tunnel_direction		.EQU $22
-tunnel_name 			.EQU $23
-tunnel_top 				.EQU $24
-tunnel_ceiling_palette	.EQU $25
-tunnel_ceiling_color1	.EQU $26
-tunnel_ceiling_color2	.EQU $27
-tunnel_ceiling_color3	.EQU $28
-tunnel_floor_palette 	.EQU $29
-tunnel_floor_color1	 	.EQU $2A
-tunnel_floor_color2 	.EQU $2B
-tunnel_floor_color3 	.EQU $2C
-tunnel_hud_palette		.EQU $2D
-tunnel_hud_color1		.EQU $2E
-tunnel_hud_color2		.EQU $2F
-tunnel_hud_color3		.EQU $30
-tunnel_movement			.EQU $31
+tunnel_location			.EQU $1F
+tunnel_table 			.EQU $20
+tunnel_shift 			.EQU $21
+tunnel_scroll			.EQU $22
+tunnel_direction		.EQU $23
+tunnel_name 			.EQU $24
+tunnel_top 				.EQU $25
+tunnel_ceiling_palette	.EQU $26
+tunnel_ceiling_color1	.EQU $27
+tunnel_ceiling_color2	.EQU $28
+tunnel_ceiling_color3	.EQU $29
+tunnel_floor_palette 	.EQU $2A
+tunnel_floor_color1	 	.EQU $2B
+tunnel_floor_color2 	.EQU $2C
+tunnel_floor_color3 	.EQU $2D
+tunnel_hud_palette		.EQU $2E
+tunnel_hud_color1		.EQU $2F
+tunnel_hud_color2		.EQU $30
+tunnel_hud_color3		.EQU $31
+tunnel_movement			.EQU $32
 
-portrait_address 		.EQU $32
-portrait_location 		.EQU $33
-portrait_x 				.EQU $34
-portrait_y 				.EQU $35
-portrait_palette 		.EQU $36
-portrait_color1 		.EQU $37
-portrait_color2 		.EQU $38
-portrait_color3 		.EQU $39
-portrait_filter			.EQU $3A
-portrait_progress		.EQU $3B
-portrait_bar			.EQU $3C
+portrait_address 		.EQU $33
+portrait_location 		.EQU $34
+portrait_x 				.EQU $35
+portrait_y 				.EQU $36
+portrait_palette 		.EQU $37
+portrait_color1 		.EQU $38
+portrait_color2 		.EQU $39
+portrait_color3 		.EQU $3A
+portrait_filter			.EQU $3B
+portrait_progress		.EQU $3C
+portrait_bar			.EQU $3D
 
-string_location			.EQU $3D
-string_x 				.EQU $3E
-string_y 				.EQU $3F
-string_palette			.EQU $40
-string_color1			.EQU $41
-string_color2			.EQU $42
-string_color3			.EQU $43
-string_counter			.EQU $44
+string_location			.EQU $3E
+string_x 				.EQU $3F
+string_y 				.EQU $40
+string_palette			.EQU $41
+string_color1			.EQU $42
+string_color2			.EQU $43
+string_color3			.EQU $44
+string_counter			.EQU $45
 
-effects_type			.EQU $45
-effects_timer			.EQU $46
-effects_scroll			.EQU $47
-effects_direction		.EQU $48
+effects_type			.EQU $46
+effects_timer			.EQU $47
+effects_scroll			.EQU $48
+effects_direction		.EQU $49
 
-bar_location			.EQU $49
-bar_position			.EQU $4A
-bar_length				.EQU $4B
-bar_value				.EQU $4C
+bar_location			.EQU $4A
+bar_position			.EQU $4B
+bar_length				.EQU $4C
+bar_value				.EQU $4D
 
-battle_player_type		.EQU $4D
-battle_player_attack	.EQU $4E
-battle_player_health	.EQU $4F
-battle_enemy_weakness	.EQU $50
-battle_enemy_attack		.EQU $51
-battle_enemy_multi		.EQU $52
-battle_enemy_health		.EQU $53
+battle_player_type		.EQU $4E ; used card type
+battle_player_value		.EQU $4F ; used card value
+battle_player_attack	.EQU $50 ; value * multi
+battle_player_health	.EQU $51 ; max of #$80
+battle_enemy_weakness	.EQU $52 ; card type for double damage
+battle_enemy_attack		.EQU $53 ; static value pre-assigned
+battle_enemy_multi		.EQU $54 ; damage multiplier
+battle_enemy_health		.EQU $55 ; max of #$40
+battle_choice_position	.EQU $56 ; position in choice array
+battle_choice_shake		.EQU $57 ; shake on enemy turn?
+
 
 ; add more variables here
 
-card_hand_array			.EQU $D6 ; uses 4 bytes, cards in hand
-card_palette_array		.EQU $DA ; uses 16 bytes, transferred to $3F10 (sprites)
+card_hand_array			.EQU $BE ; uses 4 bytes, cards in hand
+card_palette_array		.EQU $C2 ; uses 16 bytes, transferred to $3F10 (sprites)
+
+battle_choice_array		.EQU $D2 ; uses 8 bytes, choices in battle 
+battle_phrase_top		.EQU $DA ; uses 8 bytes
+battle_phrase_bottom	.EQU $E2 ; uses 8 bytes
 
 grab_func 				.EQU $EA ; uses 4 bytes, grabs from memory
 grab_low 				.EQU $EB
@@ -181,6 +190,59 @@ apu_status 		.EQU $4015
 joy_one 		.EQU $4016
 apu_frm_cnt		.EQU $4017
 
+
+; string characters
+_0				.EQU $00
+_1				.EQU $01
+_2				.EQU $02
+_3				.EQU $03
+_4				.EQU $04
+_5				.EQU $05
+_6				.EQU $06
+_7				.EQU $07
+_8				.EQU $08
+_9				.EQU $09
+_A				.EQU $0A
+_B				.EQU $0B
+_C				.EQU $0C
+_D				.EQU $0D
+_E				.EQU $0E
+_F				.EQU $0F
+_G				.EQU $10
+_H				.EQU $11
+_I				.EQU $12
+_J				.EQU $13
+_K				.EQU $14
+_L				.EQU $15
+_M				.EQU $16
+_N				.EQU $17
+_O				.EQU $18
+_P				.EQU $19
+_Q				.EQU $1A
+_R				.EQU $1B
+_S				.EQU $1C
+_T				.EQU $1D
+_U				.EQU $1E
+_V				.EQU $1F
+_W				.EQU $20
+_X				.EQU $21
+_Y				.EQU $22
+_Z				.EQU $23
+__				.EQU $30
+
+_period			.EQU $24
+_comma			.EQU $25
+_exclaim		.EQU $26
+_question		.EQU $27
+_colon			.EQU $28
+_quote			.EQU $29
+_minus			.EQU $2A
+_plus			.EQU $2B
+_left			.EQU $2C
+_right			.EQU $2D
+_forward		.EQU $2E
+_backward		.EQU $2F
+_space			.EQU $30
 
 ; bank #0
 

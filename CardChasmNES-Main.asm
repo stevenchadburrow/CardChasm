@@ -219,7 +219,7 @@ main
 	; wait to disable rendering
 	LDY #$03
 @blank1
-	LDX #$1E
+	LDX #$2E
 @blank2
 	INX
 	BNE @blank2

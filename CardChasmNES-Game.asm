@@ -66,14 +66,25 @@ game_function_04
 	JSR tunnel_still
 	JSR bar_show
 	DEC game_delay_low
-	BNE @skip
+	BEQ @continue1
+	JMP @skip
+@continue1
 	LDX enemies_position
 	LDA enemies_page,X
-	BEQ @zero
+	BNE @continue2
+	JMP @zero
+@continue2
 
-	; TEMPORARY!
+	; minus 2 then multiply by 8
+	SEC
+	SBC #$02
+	ASL A
+	ASL A
+	ASL A
+	TAX
+
 	; draw portrait (auto setup included)
-	LDA #>portrait_data_1
+	LDA enemies_battle_data+1,X
 	STA portrait_address
 	LDA #$80
 	STA portrait_location
@@ -81,11 +92,11 @@ game_function_04
 	STA portrait_x
 	LDA #$08
 	STA portrait_y
-	LDA #$0F
+	LDA enemies_battle_data+2,X
 	STA portrait_color1
-	LDA #$15
+	LDA enemies_battle_data+3,X
 	STA portrait_color2
-	LDA #$20
+	LDA enemies_battle_data+4,X
 	STA portrait_color3
 	LDA #$03 ; using palette #3
 	STA portrait_palette
@@ -94,26 +105,89 @@ game_function_04
 	LDA #$01 ; start drawing
 	STA portrait_progress
 	
-	; TEMPORARY!
 	; setup battle variables
-	LDA #$00
+	LDA enemies_battle_data+5,X
 	STA battle_enemy_weakness
-	LDA #$0A
+	LDA enemies_battle_data+6,X
 	STA battle_enemy_attack
-	LDA #$0A
+	LDA enemies_battle_data+7,X
 	STA battle_enemy_multi
 	LDA #$40
 	STA battle_enemy_health
-	LDA #$0E
+
+	; setup enemy choices
+	LDA #$00
+	STA battle_choice_position
+	LDA enemies_choice_data+0,X
+	STA battle_choice_array+0
+	LDA enemies_choice_data+1,X
+	STA battle_choice_array+1
+	LDA enemies_choice_data+2,X
+	STA battle_choice_array+2
+	LDA enemies_choice_data+3,X
+	STA battle_choice_array+3
+	LDA enemies_choice_data+4,X
+	STA battle_choice_array+4
+	LDA enemies_choice_data+5,X
+	STA battle_choice_array+5
+	LDA enemies_choice_data+6,X
+	STA battle_choice_array+6
+	LDA enemies_choice_data+7,X
+	STA battle_choice_array+7
+
+	; setup enemy name
+	LDA enemies_name_data+0,X
 	STA string_array+0
-	LDA #$17
+	LDA enemies_name_data+1,X
 	STA string_array+1
-	LDA #$0E
+	LDA enemies_name_data+2,X
 	STA string_array+2
-	LDA #$16
+	LDA enemies_name_data+3,X
 	STA string_array+3
-	LDA #$22
+	LDA enemies_name_data+4,X
 	STA string_array+4
+	LDA enemies_name_data+5,X
+	STA string_array+5
+	LDA enemies_name_data+6,X
+	STA string_array+6
+	LDA enemies_name_data+7,X
+	STA string_array+7
+
+	; load top phrase
+	LDA enemies_phrase_top_data+0,X
+	STA battle_phrase_top+0
+	LDA enemies_phrase_top_data+1,X
+	STA battle_phrase_top+1
+	LDA enemies_phrase_top_data+2,X
+	STA battle_phrase_top+2
+	LDA enemies_phrase_top_data+3,X
+	STA battle_phrase_top+3
+	LDA enemies_phrase_top_data+4,X
+	STA battle_phrase_top+4
+	LDA enemies_phrase_top_data+5,X
+	STA battle_phrase_top+5
+	LDA enemies_phrase_top_data+6,X
+	STA battle_phrase_top+6
+	LDA enemies_phrase_top_data+7,X
+	STA battle_phrase_top+7
+	
+	; load bottom phrase
+	LDA enemies_phrase_bottom_data+0,X
+	STA battle_phrase_bottom+0
+	LDA enemies_phrase_bottom_data+1,X
+	STA battle_phrase_bottom+1
+	LDA enemies_phrase_bottom_data+2,X
+	STA battle_phrase_bottom+2
+	LDA enemies_phrase_bottom_data+3,X
+	STA battle_phrase_bottom+3
+	LDA enemies_phrase_bottom_data+4,X
+	STA battle_phrase_bottom+4
+	LDA enemies_phrase_bottom_data+5,X
+	STA battle_phrase_bottom+5
+	LDA enemies_phrase_bottom_data+6,X
+	STA battle_phrase_bottom+6
+	LDA enemies_phrase_bottom_data+7,X
+	STA battle_phrase_bottom+7
 
 	LDA #$10
 	STA game_state
@@ -161,6 +235,7 @@ game_function_12
 	JSR selector_move
 	JSR card_show
 	JSR enemies_draw
+	JSR enemies_phrase_clear
 	JSR tunnel_still
 	JSR bar_show
 	JSR buttons_activate ; check for pressing A
@@ -173,7 +248,16 @@ game_function_12
 	LDA card_deck_symbol,X
 	STA effects_type
 	STA battle_player_type
+	LDA card_deck_number,X
+	STA battle_player_value
 	LDY battle_enemy_multi
+	LDA card_deck_symbol,X
+	CMP battle_enemy_weakness
+	BNE @ready
+	TYA
+	ASL A ; double damage for weakness
+	TAY
+@ready
 	LDA #$00
 @multiply
 	CLC
@@ -181,6 +265,7 @@ game_function_12
 	DEY
 	BNE @multiply
 	STA battle_player_attack
+
 	LDA #$20
 	STA effects_timer
 	LDX selector_position
@@ -208,6 +293,12 @@ game_function_14
 	CMP #$28
 	BNE @next
 
+	LDA battle_player_type
+	CMP #$06
+	BEQ @shield
+	CMP #$07
+	BEQ @hearts
+
 	; enemy takes damage
 	LDA battle_enemy_health
 	SEC
@@ -216,21 +307,81 @@ game_function_14
 	BCS @alive
 	LDA #$00
 	STA battle_enemy_health
-
-	JMP reset ; TEMPORARY!
-
 @alive
+	JMP @skip
+
+@shield
+	; no damage
+	JMP @skip
+
+@hearts
+	; player gains health
+	LDA battle_player_value
+	ASL A
+	ASL A
+	ASL A
+	ASL A ; multiply by 16
+	CLC
+	ADC battle_player_health
+	STA battle_player_health
+	BCS @max
+	CMP #$80
+	BCS @max
+	JMP @skip
+@max
+	LDA #$80
+	STA battle_player_health
 	JMP @skip
 
 @next
 	LDA game_delay_low
 	CMP #$00
 	BNE @skip
+
+	LDA battle_enemy_health
+	BEQ @dead
+
+	; shake or phrase
+	LDA #$00
+	STA battle_choice_shake
+	LDX battle_choice_position
+	LDA battle_choice_array,X
+	BEQ @still
+	INC battle_choice_shake
+	LDA #$3C
+	STA game_delay_low
+	BNE @timers
+@still
+	JSR enemies_phrase_load
+	LDA #$78
+	STA game_delay_low
+@timers
+
 	LDA #$20
 	STA effects_timer
 	LDA #$16
 	STA game_state
-	LDA #$3C
+	LDA #$00
+	STA game_delay_high
+	BEQ @skip
+
+@dead
+	LDX #$00
+	LDA #$30
+@space
+	STA string_array,X
+	INX
+	CPX #$20
+	BNE @space
+	LDA #$FF
+	STA card_shift_timer
+	LDA #$00
+	STA portrait_filter
+	LDA #$01 ; start clearing
+	STA portrait_progress
+	LDA #$18
+	STA game_state
+	LDA #$1E
 	STA game_delay_low
 	LDA #$00
 	STA game_delay_high
@@ -243,19 +394,62 @@ game_function_16
 	JSR card_show
 	JSR enemies_draw
 	JSR tunnel_still
-	JSR effects_shake
 	JSR bar_show
+
+	LDA battle_choice_shake
+	BEQ @still
+	JSR effects_shake
+@still
 
 	DEC game_delay_low
 	LDA game_delay_low
 	CMP #$28
 	BNE @next
 
+	; enemy battle choice
+	LDX battle_choice_position
+	LDA battle_choice_position
+	CLC
+	ADC #$01
+	AND #$07
+	STA battle_choice_position
+	LDA battle_choice_array,X
+	BEQ @next
+
 	; player takes damage
+	LDA battle_player_type
+	CMP #$06
+	BEQ @shield
+
 	LDA battle_player_health
 	SEC
 	SBC battle_enemy_attack
 	STA battle_player_health
+	JMP @check
+
+@shield
+	; reduce damage with shield
+	LDA #$00
+	STA effects_timer
+	LDA battle_enemy_attack
+	LDX battle_player_value
+@divide
+	SEC
+	SBC #$08 ; stop 8x value damage
+	BCC @zero
+	DEX
+	BNE @divide
+	BEQ @subtract
+@zero
+	LDA #$00
+@subtract
+	STA math_slot_0
+	LDA battle_player_health
+	SEC
+	SBC math_slot_0
+	STA battle_player_health
+
+@check
 	BCS @alive
 	LDA #$00
 	STA battle_player_health
@@ -281,7 +475,7 @@ game_function_16
 @skip
 	RTS
 
-; shifting cards and going back to wait during battle
+; shifting cards and going back to waiting
 game_function_18
 	JSR selector_clear
 	JSR card_shift
@@ -292,13 +486,20 @@ game_function_18
 
 	DEC game_delay_low
 	BNE @skip
+	LDA battle_enemy_health
+	BEQ @dead
 	LDA #$12
+	STA game_state
+	BNE @skip
+@dead
+	LDA #$00
 	STA game_state
 @skip
 	RTS
 
 game_function_1A
 	RTS
+
 game_function_1C
 	RTS
 game_function_1E

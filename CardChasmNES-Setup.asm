@@ -61,7 +61,12 @@ setup
 	CLC
 	ADC #$04 ; color
 	STA card_deck_color,X
-	LDA #$01 ; number
+	TXA
+	CLC
+	ADC #$02
+	AND #$03 ; number
+	CLC
+	ADC #$01
 	STA card_deck_number,X
 	TXA ; symbol
 	AND #$07
@@ -118,7 +123,12 @@ setup
 	TXA
 	AND #$03
 	BNE @enemies_path_zero
-	LDA #$02
+	TXA
+	AND #$04
+	LSR A
+	LSR A
+	CLC
+	ADC #$02
 	STA enemies_page,X
 	BNE @enemies_path_check
 @enemies_path_zero
@@ -131,6 +141,11 @@ setup
 	; intial setup
 	LDA #$00
 	STA enemies_position
+	LDA #$20 ; end of tunnel
+	STA enemies_max
+	TAX
+	LDA #$02 ; last enemy
+	STA enemies_page,X
 
 	; tunnel setup info
 	LDA #$40

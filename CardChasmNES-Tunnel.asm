@@ -409,6 +409,15 @@ tunnel_walk
 	CMP #$01
 	BNE @skip
 	INC enemies_position
+	LDA enemies_position
+	CMP enemies_max
+	BCC @decrement
+	LDA enemies_max
+	STA enemies_position
+	LDA #$00
+	STA tunnel_movement
+	BEQ @skip
+@decrement
 	DEC tunnel_movement
 @skip
 	RTS

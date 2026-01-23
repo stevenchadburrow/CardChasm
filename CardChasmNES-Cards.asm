@@ -267,6 +267,10 @@ card_draw
 	STA card_palette_array,X
 	INX
 
+	LDA battle_enemy_health
+	BNE @battle	
+
+@move
 	; adjust oam
 	LDX card_address ; location in oam
 	LDA card_y ; y-value
@@ -324,6 +328,68 @@ card_draw
 	ADC #$08
 	STA oam_page+11,X
 	STA oam_page+23,X
+
+	RTS
+
+@battle
+	; adjust oam
+	LDX card_address ; location in oam
+	LDA card_y ; y-value
+	STA oam_page+0,X
+	STA oam_page+4,X
+	STA oam_page+8,X
+	CLC
+	ADC #$10
+	STA oam_page+12,X
+	STA oam_page+16,X
+	STA oam_page+20,X
+	LDA card_location
+	CLC
+	ADC #$40
+	STA oam_page+1,X
+	LDA card_top_symbol
+	ASL A
+	CLC
+	ADC #$40
+	STA oam_page+5,X
+	LDA card_top_number
+	ASL A
+	CLC
+	ADC #$00
+	STA oam_page+9,X
+	LDA card_bottom_number
+	ASL A
+	CLC
+	ADC #$20	
+	STA oam_page+13,X
+	LDA card_bottom_symbol
+	ASL A
+	CLC
+	ADC #$40
+	STA oam_page+17,X
+	LDA card_location
+	CLC
+	ADC #$42
+	STA oam_page+21,X
+	LDA card_palette
+	STA oam_page+6,X
+	STA oam_page+10,X
+	STA oam_page+14,X
+	STA oam_page+18,X
+	ORA #$40
+	STA oam_page+2,X
+	STA oam_page+22,X
+	LDA card_x
+	STA oam_page+11,X
+	STA oam_page+23,X
+	CLC
+	ADC #$08
+	STA oam_page+7,X
+	STA oam_page+19,X
+	CLC
+	ADC #$08
+	STA oam_page+3,X
+	STA oam_page+15,X
 
 	RTS
 
