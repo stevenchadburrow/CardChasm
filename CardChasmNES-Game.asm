@@ -347,7 +347,11 @@ game_function_14
 	LDX battle_choice_position
 	LDA battle_choice_array,X
 	BEQ @still
-	INC battle_choice_shake
+	STA battle_choice_shake
+	CMP #$02
+	BNE @delay
+	JSR enemies_phrase_double
+@delay
 	LDA #$3C
 	STA game_delay_low
 	BNE @timers
@@ -421,11 +425,16 @@ game_function_16
 	CMP #$06
 	BEQ @shield
 
+	LDX battle_choice_shake
+@double
 	LDA battle_player_health
 	SEC
 	SBC battle_enemy_attack
 	STA battle_player_health
-	JMP @check
+	BCC @check
+	DEX
+	BNE @double
+	BEQ @check
 
 @shield
 	; reduce damage with shield

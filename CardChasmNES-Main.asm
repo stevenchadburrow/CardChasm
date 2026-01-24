@@ -55,6 +55,7 @@ reset_grabber
 	STA grab_func+3
 
 ; randomizer function creation
+; current = 5 * previous + 17
 reset_randomizer
 	LDA #$A5 ; LDAz
 	STA rand_func+0
@@ -214,12 +215,14 @@ main
 	LDA #$00
 	STA ppu_addr
 
-	; do something fixed here?
+	; do something fixed here
+	; randomize a bit more
+	JSR rand_func
 
 	; wait to disable rendering
 	LDY #$03
 @blank1
-	LDX #$2E
+	LDX #$28
 @blank2
 	INX
 	BNE @blank2

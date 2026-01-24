@@ -54,49 +54,56 @@ setup
 	; create cards into deck
 	LDX #$00
 @card_deck_loop1
-	LDA #$01 ; type
+	LDA #$00 ; type (unused)
 	STA card_deck_type,X
-	TXA
-	AND #$03
-	CLC
-	ADC #$04 ; color
-	STA card_deck_color,X
-	TXA
+	JSR rand_func ; number
 	CLC
 	ADC #$02
-	AND #$03 ; number
+	AND #$03
 	CLC
 	ADC #$01
 	STA card_deck_number,X
-	TXA ; symbol
+	JSR rand_func ; symbol
 	AND #$07
 	CMP #$06
 	BCC @card_deck_sym
 	LDA #$00
 @card_deck_sym
+	PHA
 	CLC
 	ADC #$02
 	STA card_deck_symbol,X
-	TXA
-	AND #$03 ; movement
+	PLA ; color
+	TAY
+	LDA setup_card_color_data,Y
+	STA card_deck_color,X
+	JSR rand_func ; movement
+	AND #$03
 	CLC
 	ADC #$01
 	STA card_deck_movement,X
 	INX
 	CPX #$28 ; 40 cards in deck
 	BNE @card_deck_loop1
+	JMP setup_card_jump
 
-	; TEMPORARY!
+setup_card_color_data
+	; colors associated with each card symbol
+	.BYTE $1A,$16,$28,$22,$13,$25
+
+setup_card_jump
 	; shuffle cards here
 	LDX #$00
 @card_deck_loop2
 	TXA
 	STA card_deck_array,X
 	INX
+	CPX #$28
 	BNE @card_deck_loop2
 	JSR card_shuffle
+	JSR card_shuffle
+	JSR card_shuffle
 
-	; TEMPORARY!
 	; starting hand
 	LDA #$00
 	STA card_hand_array+0
@@ -116,17 +123,19 @@ setup
 	; enemies
 	JSR enemies_setup
 
-	; TEMPORARY!
 	; create enemy positions along path
 	LDX #$00
+	JSR rand_func
+	TAY
+	LDA random_value_data,Y
+	TAY
 @enemies_path_loop
-	TXA
+	INY
+	LDA random_value_data,Y
 	AND #$03
 	BNE @enemies_path_zero
-	TXA
-	AND #$04
-	LSR A
-	LSR A
+	JSR rand_func
+	AND #$01 ; change later
 	CLC
 	ADC #$02
 	STA enemies_page,X

@@ -140,10 +140,10 @@ dec_value 				.EQU $FF ; holds original hex value for dec_func
 oam_page 				.EQU $0200 ; sprite oam data ready for dma
 
 ; 40 cards in the deck
-card_deck_type			.EQU $0300 
-card_deck_color			.EQU $0328
-card_deck_number		.EQU $0350
-card_deck_symbol		.EQU $0378
+card_deck_type			.EQU $0300 ; 'type' is currently unused
+card_deck_color			.EQU $0328 ; color is associated with symbol
+card_deck_symbol		.EQU $0350
+card_deck_number		.EQU $0378
 card_deck_movement		.EQU $03A0
 card_deck_array			.EQU $03C8 ; up to 40 cards in library
 

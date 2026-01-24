@@ -533,6 +533,29 @@ card_transfer
 
 ; shuffle cards back into deck
 card_shuffle
+	; swap card around
+	LDX #$00
+	JSR rand_func
+	TAY
+	LDA random_value_data,Y
+	TAY
+@loop
+	INY
+	LDA random_value_data,Y
+	CMP #$28 ; 40 cards in deck
+	BCS @loop
+	TAY
+	LDA card_deck_array,X
+	STA math_slot_0
+	LDA card_deck_array,Y
+	STA card_deck_array,X
+	LDA math_slot_0
+	STA card_deck_array,Y
+	INX
+	CPX #$28
+	BNE @loop
+	
+	; starting position
 	LDA #$01
 	STA card_deck_position
 	RTS

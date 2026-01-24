@@ -143,6 +143,21 @@ enemies_phrase_load
 
 	RTS
 
+; just shown during double damage
+enemies_phrase_double
+	LDY #$00
+@loop
+	LDA enemies_phrase_double_data,Y
+	STA string_array+16,Y
+	INY
+	CPY #$10
+	BNE @loop
+	RTS
+
+enemies_phrase_double_data
+	.BYTE __,_D,_O,_U,_B,_L,_E,__
+	.BYTE __,_D,_A,_M,_A,_G,_E,__
+
 ; clears enemy phrase
 enemies_phrase_clear
 	; top phrase
@@ -185,22 +200,21 @@ enemies_battle_data
 	.BYTE $0C ; multiplier
 
 enemies_choice_data
-	.BYTE $01,$01,$00,$01,$01,$01,$00,$01
-	.BYTE $01,$00,$01,$01,$01,$00,$01,$01
+	.BYTE $01,$01,$00,$02,$01,$01,$00,$02
+	.BYTE $01,$00,$02,$01,$01,$00,$02,$01
 
 enemies_name_data
 	.BYTE _S,_T,_E,_F,_A,_N,_I,__
 	.BYTE _J,_U,_D,_I,_T,_H,__,__
 
 enemies_phrase_top_data
-	.BYTE _S,_T,_A,_Y,__,_F,_A,_R
-	.BYTE _U,_H,_H,_exclaim,__,_Y,_O,_U,__
+	.BYTE _Y,_O,_U,__,_M,_A,_K,_E
+	.BYTE _E,_W,_W,_exclaim,__,_Y,_O,_U,__
 
 enemies_phrase_bottom_data
-	.BYTE _F,_R,_O,_M,__,_M,_E,_exclaim
+	.BYTE _M,_E,__,_S,_I,_C,_K,_exclaim
 	.BYTE _A,_R,_E,__,_U,_G,_L,_Y
 	
-
 
 
 
