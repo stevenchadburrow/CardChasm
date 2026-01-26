@@ -305,8 +305,8 @@ setup_tunnel_data
 	; cave
 	.BYTE #>tunnel_data_0 ; address
 	.BYTE $08,$01,$00 ; back, top, sym
-	.BYTE $06,$26,$37 ; ceiling colors
-	.BYTE $06,$26,$37 ; floor colors
+	.BYTE $06,$27,$37 ; ceiling colors
+	.BYTE $06,$27,$37 ; floor colors
 	.BYTE $08,$10,$20 ; hud colors
 	.BYTE $FF,$FF,$FF ; dummy values
 
