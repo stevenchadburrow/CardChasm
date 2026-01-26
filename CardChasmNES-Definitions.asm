@@ -50,68 +50,72 @@ card_deck_position		.EQU $1C
 enemies_position		.EQU $1D
 enemies_max				.EQU $1E
 
-tunnel_location			.EQU $1F
-tunnel_table 			.EQU $20
-tunnel_shift 			.EQU $21
-tunnel_scroll			.EQU $22
-tunnel_direction		.EQU $23
-tunnel_name 			.EQU $24
-tunnel_top 				.EQU $25
-tunnel_ceiling_palette	.EQU $26
-tunnel_ceiling_color1	.EQU $27
-tunnel_ceiling_color2	.EQU $28
-tunnel_ceiling_color3	.EQU $29
-tunnel_floor_palette 	.EQU $2A
-tunnel_floor_color1	 	.EQU $2B
-tunnel_floor_color2 	.EQU $2C
-tunnel_floor_color3 	.EQU $2D
-tunnel_hud_palette		.EQU $2E
-tunnel_hud_color1		.EQU $2F
-tunnel_hud_color2		.EQU $30
-tunnel_hud_color3		.EQU $31
-tunnel_movement			.EQU $32
+tunnel_address			.EQU $1F
+tunnel_location			.EQU $20
+tunnel_table 			.EQU $21
+tunnel_shift 			.EQU $22
+tunnel_scroll			.EQU $23
+tunnel_direction		.EQU $24
+tunnel_name 			.EQU $25
+tunnel_top 				.EQU $26
+tunnel_symmetry			.EQU $27
+tunnel_ceiling_palette	.EQU $28
+tunnel_ceiling_color1	.EQU $29
+tunnel_ceiling_color2	.EQU $2A
+tunnel_ceiling_color3	.EQU $2B
+tunnel_floor_palette 	.EQU $2C
+tunnel_floor_color1	 	.EQU $2D
+tunnel_floor_color2 	.EQU $2E
+tunnel_floor_color3 	.EQU $2F
+tunnel_hud_palette		.EQU $30
+tunnel_hud_color1		.EQU $31
+tunnel_hud_color2		.EQU $32
+tunnel_hud_color3		.EQU $33
+tunnel_movement			.EQU $34
+tunnel_previous			.EQU $35
+tunnel_counter			.EQU $36
 
-portrait_address 		.EQU $33
-portrait_location 		.EQU $34
-portrait_x 				.EQU $35
-portrait_y 				.EQU $36
-portrait_palette 		.EQU $37
-portrait_color1 		.EQU $38
-portrait_color2 		.EQU $39
-portrait_color3 		.EQU $3A
-portrait_filter			.EQU $3B
-portrait_progress		.EQU $3C
-portrait_bar			.EQU $3D
+portrait_address 		.EQU $37
+portrait_location 		.EQU $38
+portrait_x 				.EQU $39
+portrait_y 				.EQU $3A
+portrait_palette 		.EQU $3B
+portrait_color1 		.EQU $3C
+portrait_color2 		.EQU $3D
+portrait_color3 		.EQU $3E
+portrait_filter			.EQU $3F
+portrait_progress		.EQU $40
+portrait_bar			.EQU $41
 
-string_location			.EQU $3E
-string_x 				.EQU $3F
-string_y 				.EQU $40
-string_palette			.EQU $41
-string_color1			.EQU $42
-string_color2			.EQU $43
-string_color3			.EQU $44
-string_counter			.EQU $45
+string_location			.EQU $42
+string_x 				.EQU $43
+string_y 				.EQU $44
+string_palette			.EQU $45
+string_color1			.EQU $46
+string_color2			.EQU $47
+string_color3			.EQU $48
+string_counter			.EQU $49
 
-effects_type			.EQU $46
-effects_timer			.EQU $47
-effects_scroll			.EQU $48
-effects_direction		.EQU $49
+effects_type			.EQU $4A
+effects_timer			.EQU $4B
+effects_scroll			.EQU $4C
+effects_direction		.EQU $4D
 
-bar_location			.EQU $4A
-bar_position			.EQU $4B
-bar_length				.EQU $4C
-bar_value				.EQU $4D
+bar_location			.EQU $4E
+bar_position			.EQU $4F
+bar_length				.EQU $50
+bar_value				.EQU $51
 
-battle_player_type		.EQU $4E ; used card type
-battle_player_value		.EQU $4F ; used card value
-battle_player_attack	.EQU $50 ; value * multi
-battle_player_health	.EQU $51 ; max of #$80
-battle_enemy_weakness	.EQU $52 ; card type for double damage
-battle_enemy_attack		.EQU $53 ; static value pre-assigned
-battle_enemy_multi		.EQU $54 ; damage multiplier
-battle_enemy_health		.EQU $55 ; max of #$40
-battle_choice_position	.EQU $56 ; position in choice array
-battle_choice_shake		.EQU $57 ; shake on enemy turn?
+battle_player_type		.EQU $52 ; used card type
+battle_player_value		.EQU $53 ; used card value
+battle_player_attack	.EQU $54 ; value * multi
+battle_player_health	.EQU $55 ; max of #$80
+battle_enemy_weakness	.EQU $56 ; card type for double damage
+battle_enemy_attack		.EQU $57 ; static value pre-assigned
+battle_enemy_multi		.EQU $58 ; damage multiplier
+battle_enemy_health		.EQU $59 ; max of #$40
+battle_choice_position	.EQU $5A ; position in choice array
+battle_choice_shake		.EQU $5B ; shake on enemy turn?
 
 
 ; add more variables here
@@ -249,20 +253,13 @@ _space			.EQU $30
 font_data_0 	.EQU $8000
 
 tunnel_data_0 	.EQU $8400
+tunnel_data_1	.EQU $8800
+tunnel_data_2	.EQU $8C00
 
-portrait_data_0 .EQU $8800
-portrait_data_1 .EQU $8C00
-portrait_data_2 .EQU $9000
-portrait_data_3 .EQU $9400
-portrait_data_4 .EQU $9800
-portrait_data_5 .EQU $9C00
-portrait_data_6 .EQU $A000
-portrait_data_7 .EQU $A400
-portrait_data_8 .EQU $A800
-portrait_data_9 .EQU $AC00
-portrait_data_A .EQU $B000
-portrait_data_B .EQU $B400
-portrait_data_C .EQU $B800
-portrait_data_D .EQU $BC00
+portrait_data_0 .EQU $9000
+portrait_data_1 .EQU $9400
+portrait_data_2 .EQU $9800
+portrait_data_3 .EQU $9C00
+
 
 

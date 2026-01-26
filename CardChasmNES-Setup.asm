@@ -7,10 +7,6 @@ setup
 	LDA #$00
 	STA ppu_status
 
-	; set background color
-	LDA #$0C ; dark background
-	STA background_color
-
 	; last two tiles
 	LDA ppu_status
 	LDA #$1F
@@ -135,7 +131,7 @@ setup_card_jump
 	AND #$03
 	BNE @enemies_path_zero
 	JSR rand_func
-	AND #$01 ; change later
+	AND #$03 ; change later
 	CLC
 	ADC #$02
 	STA enemies_page,X
@@ -156,43 +152,60 @@ setup_card_jump
 	LDA #$02 ; last enemy
 	STA enemies_page,X
 
+	; TEMPORARY!
+	; decide which tunnel to draw
+	; always in 16-byte values
+	LDX #$20
+
 	; tunnel setup info
+	LDA setup_tunnel_data+0,X
+	STA tunnel_address
+	LDA setup_tunnel_data+1,X
+	STA background_color ; set background color
+	LDA setup_tunnel_data+2,X
+	STA tunnel_top
+	LDA setup_tunnel_data+3,X
+	STA tunnel_symmetry
 	LDA #$40
 	STA tunnel_location
 	LDA #$00
 	STA tunnel_ceiling_palette
-	LDA #$00 ; walls
+	LDA setup_tunnel_data+4,X
 	STA tunnel_ceiling_color1
-	LDA #$1B ; ceiling
+	LDA setup_tunnel_data+5,X
 	STA tunnel_ceiling_color2
-	LDA #$10 ; accent
+	LDA setup_tunnel_data+6,X
 	STA tunnel_ceiling_color3
 	LDA #$01
 	STA tunnel_floor_palette
-	LDA #$00 ; walls
+	LDA setup_tunnel_data+7,X
 	STA tunnel_floor_color1
-	LDA #$18 ; floor
+	LDA setup_tunnel_data+8,X
 	STA tunnel_floor_color2
-	LDA #$10 ; accent
+	LDA setup_tunnel_data+9,X
 	STA tunnel_floor_color3
 	LDA #$02
 	STA tunnel_hud_palette
-	LDA #$0C ; background color
+	LDA setup_tunnel_data+10,X
 	STA tunnel_hud_color1
-	LDA #$10
+	LDA setup_tunnel_data+11,X
 	STA tunnel_hud_color2
-	LDA #$20
+	LDA setup_tunnel_data+12,X
 	STA tunnel_hud_color3
 	JSR tunnel_setup
 
 	; tunnel draw info
-	LDA #$01
-	STA tunnel_top
+	LDA #$00
+	STA tunnel_previous
+	STA tunnel_counter
 	LDA #$40
 	STA tunnel_location
 	LDA #$20
 	STA tunnel_table
 	JSR tunnel_draw
+	LDA #$00
+	STA tunnel_previous
+	STA tunnel_counter
 	LDA #$60
 	STA tunnel_location
 	LDA #$28
@@ -258,7 +271,7 @@ setup_card_jump
 	STA string_location
 	LDA #$02
 	STA string_palette
-	LDA #$0C
+	LDA background_color
 	STA string_color1
 	LDA #$10
 	STA string_color2
@@ -286,6 +299,33 @@ setup_card_jump
 	STA string_array,X
 
 	RTS
+
+; 16 bytes per setup
+setup_tunnel_data
+	; cave
+	.BYTE #>tunnel_data_0 ; address
+	.BYTE $08,$01,$00 ; back, top, sym
+	.BYTE $06,$26,$37 ; ceiling colors
+	.BYTE $06,$26,$37 ; floor colors
+	.BYTE $08,$10,$20 ; hud colors
+	.BYTE $FF,$FF,$FF ; dummy values
+
+	; trees
+	.BYTE #>tunnel_data_1 ; address
+	.BYTE $01,$00,$00 ; back, top, sym
+	.BYTE $17,$0A,$07 ; ceiling colors
+	.BYTE $17,$0A,$07 ; floor colors
+	.BYTE $01,$10,$20 ; hud colors
+	.BYTE $FF,$FF,$FF ; dummy values
+
+	; castle
+	.BYTE #>tunnel_data_2 ; address
+	.BYTE $0C,$01,$01 ; back, top, sym
+	.BYTE $20,$00,$10 ; ceiling colors
+	.BYTE $20,$00,$10 ; floor colors
+	.BYTE $0C,$10,$20 ; hud colors
+	.BYTE $FF,$FF,$FF ; dummy values
+
 
 ; run once before drawing
 sprite_zero_setup
@@ -354,8 +394,8 @@ selector_setup
 	RTS
 
 selector_setup_data
-	.BYTE $80,$C0,$E0,$F0,$F8,$FC,$7E,$3F,$80,$C0,$E0,$F0,$F8,$FC,$7E,$3F
-	.BYTE $3F,$7E,$FC,$F8,$F0,$E0,$C0,$80,$3F,$7E,$FC,$F8,$F0,$E0,$C0,$80
+	.BYTE $80,$C0,$60,$30,$98,$CC,$66,$33,$80,$C0,$E0,$F0,$78,$3C,$1E,$0F
+	.BYTE $33,$66,$CC,$98,$30,$60,$C0,$80,$0F,$1E,$3C,$78,$F0,$E0,$C0,$80
 
 ; draw selector sprite
 selector_draw

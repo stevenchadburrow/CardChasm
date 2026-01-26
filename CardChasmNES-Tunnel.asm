@@ -3,10 +3,16 @@
 
 ; run once before drawing
 tunnel_setup
+	; TEMPORARY!
+	; change bank
+	;LDA #$01
+	;STA $C000
+
 	; setup tunnel tiles
 	LDA #$00
 	STA grab_low
-	LDA #>tunnel_data_0
+	;LDA #$80 ; TEMPORARY!
+	LDA tunnel_address
 	STA grab_high
 	LDA ppu_status
 	LDA tunnel_location
@@ -82,6 +88,11 @@ tunnel_setup
 	LDA tunnel_hud_color3
 	STA ppu_data
 
+	; TEMPORARY!
+	; change bank
+	;LDA #$00
+	;STA $C000
+
 	RTS
 
 ; draws tunnel to one name table
@@ -108,7 +119,8 @@ tunnel_draw_closed
 	JSR grab_func
 	CLC
 	ADC tunnel_location
-	STA ppu_data
+	;STA ppu_data
+	JSR tunnel_draw_store
 	INC grab_low
 	DEX
 	BNE @loop1
@@ -123,7 +135,8 @@ tunnel_draw_closed
 	CLC
 	ADC tunnel_location
 @skip1
-	STA ppu_data
+	;STA ppu_data
+	JSR tunnel_draw_store
 	INC grab_low
 	DEX
 	BNE @loop3
@@ -143,7 +156,8 @@ tunnel_draw_closed
 	JSR grab_func
 	CLC
 	ADC tunnel_location
-	STA ppu_data
+	;STA ppu_data
+	JSR tunnel_draw_store
 	INC grab_low
 	BNE @skip2
 	INC grab_high
@@ -154,7 +168,8 @@ tunnel_draw_closed
 	LDX #$80
 	LDA #$FF
 @loop5
-	STA ppu_data
+	;STA ppu_data
+	JSR tunnel_draw_store
 	DEX
 	BNE @loop5
 
@@ -170,7 +185,8 @@ tunnel_draw_closed
 	AND math_slot_0
 	CLC
 	ADC #$20
-	STA ppu_data
+	;STA ppu_data
+	JSR tunnel_draw_store
 	INC grab_low
 	DEX
 	BNE @loop6
@@ -194,7 +210,8 @@ tunnel_draw_open
 	CLC
 	ADC tunnel_location
 @skip1
-	STA ppu_data
+	;STA ppu_data
+	JSR tunnel_draw_store
 	INC grab_low
 	DEX
 	BNE @loop2
@@ -214,7 +231,8 @@ tunnel_draw_open
 	JSR grab_func
 	CLC
 	ADC tunnel_location
-	STA ppu_data
+	;STA ppu_data
+	JSR tunnel_draw_store
 	INC grab_low
 	BNE @skip2
 	INC grab_high
@@ -225,7 +243,8 @@ tunnel_draw_open
 	LDX #$80
 	LDA #$FF
 @loop4
-	STA ppu_data
+	;STA ppu_data
+	JSR tunnel_draw_store
 	DEX
 	BNE @loop4
 
@@ -251,7 +270,8 @@ tunnel_draw_open
 	CLC
 	ADC #$20
 @skip3
-	STA ppu_data
+	;STA ppu_data
+	JSR tunnel_draw_store
 	INC grab_low
 	DEX
 	BNE @loop6
@@ -365,6 +385,59 @@ tunnel_draw_attr
 	DEX
 	BNE @loop4
 	
+	RTS
+
+; used to be just: STA ppu_data
+; but now checks for $_4/$_5 or $_A/$_B to add symmetry for ceiling and floor
+tunnel_draw_store
+	PHA
+	LDA tunnel_symmetry
+	BEQ @regular
+	PLA
+	PHA
+	AND #$0E
+	CMP #$04
+	BEQ @store
+	CMP #$0A
+	BEQ @store
+	LDA tunnel_counter
+	BEQ @regular
+	LSR A
+	TAY
+	LDA tunnel_previous
+@place_loop1
+	STA ppu_data
+	DEY
+	BNE @place_loop1
+	LDA tunnel_counter
+	LSR A
+	TAY
+	LDA tunnel_previous
+	ORA #$01
+@place_loop2
+	STA ppu_data
+	DEY
+	BNE @place_loop2
+	LDA #$00
+	STA tunnel_previous
+	STA tunnel_counter
+@regular
+	PLA
+	STA ppu_data
+	RTS
+
+@store
+	LDA tunnel_previous
+	BNE @increment
+	PLA
+	AND #$FE
+	STA tunnel_previous
+	INC tunnel_counter
+	RTS	
+
+@increment
+	PLA
+	INC tunnel_counter
 	RTS
 
 ; tunnel initial position
