@@ -256,10 +256,15 @@ tunnel_data_0 	.EQU $8400
 tunnel_data_1	.EQU $8800
 tunnel_data_2	.EQU $8C00
 
-portrait_data_0 .EQU $9000
-portrait_data_1 .EQU $9400
-portrait_data_2 .EQU $9800
-portrait_data_3 .EQU $9C00
+reward_data_0	.EQU $9000
+
+portrait_data_0 .EQU $9400
+portrait_data_1 .EQU $9800
+portrait_data_2 .EQU $9C00
+portrait_data_3 .EQU $A000
+portrait_data_4	.EQU $A400
+portrait_data_5	.EQU $A800
+portrait_data_6	.EQU $AC00
 
 
 

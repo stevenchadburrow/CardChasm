@@ -131,9 +131,9 @@ setup_card_jump
 	AND #$03
 	BNE @enemies_path_zero
 	JSR rand_func
-	AND #$03 ; change later
+	AND #$01 ; change accordingly
 	CLC
-	ADC #$02
+	ADC #$01
 	STA enemies_page,X
 	BNE @enemies_path_check
 @enemies_path_zero

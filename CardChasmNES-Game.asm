@@ -75,9 +75,9 @@ game_function_04
 	JMP @zero
 @continue2
 
-	; minus 2 then multiply by 8
+	; minus 1 then multiply by 8
 	SEC
-	SBC #$02
+	SBC #$01
 	ASL A
 	ASL A
 	ASL A
@@ -262,10 +262,17 @@ game_function_12
 @multiply
 	CLC
 	ADC card_deck_number,X
+	BCS @max
+	CMP #$40
+	BCS @max
 	DEY
 	BNE @multiply
 	STA battle_player_attack
-
+	JMP @next
+@max
+	LDA #$40
+	STA battle_player_attack
+@next
 	LDA #$20
 	STA effects_timer
 	LDX selector_position
@@ -370,6 +377,15 @@ game_function_14
 	BEQ @skip
 
 @dead
+	; check for reward
+	LDX enemies_position
+	LDA enemies_page,X
+	CMP #$01
+	BNE @enemy
+	
+	; give player new card here	
+
+@enemy
 	LDX #$00
 	LDA #$30
 @space
