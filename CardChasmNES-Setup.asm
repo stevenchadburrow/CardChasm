@@ -131,7 +131,7 @@ setup_card_jump
 	AND #$03
 	BNE @enemies_path_zero
 	JSR rand_func
-	AND #$01 ; change accordingly
+	AND #$03 ; change accordingly
 	CLC
 	ADC #$01
 	STA enemies_page,X
@@ -146,7 +146,7 @@ setup_card_jump
 	; intial setup
 	LDA #$00
 	STA enemies_position
-	LDA #$20 ; end of tunnel
+	LDA #$40 ; end of tunnel
 	STA enemies_max
 	TAX
 	LDA #$02 ; last enemy
