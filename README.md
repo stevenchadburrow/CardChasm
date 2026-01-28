@@ -8,7 +8,7 @@ The concept behind Card Chasm is to be a simplified clone of <a href="https://pl
 Some modifications I am doing here are using elemental attack types and weaknesses, like a simplified Pokemon battle. My deck will be 40 cards, and fully customizable, instead of only changing 5 booster cards like in the original.  I do not have a partner or choice of player.  I also am not thinking of adding special abilities, though that could be a feature implemented later.  I think the main 'hook' for this game is on a technical standpoint.  Simulating the walking effect takes a lot of special NES hardware knowledge.  So in that way, this game is kind of a demo of NES hardware capabilities.<br>
 
 <b>Development:</b><br>
-The target mapper used for this game is the <a href="https://www.nesdev.org/wiki/UxROM">UxROM Mapper</a>, but with a small modification to the standard by adding PRG-RAM starting at $6000.  All code is in 6502 assembly, though C code is used to generate pattern table data from BMP images.  The emulators used for testing are <a href="https://www.mesen.ca/">Mesen</a> and my own <a href="https://github.com/stevenchadburrow/PICnes">PICnes</a>.<br>
+The target mapper used for this game is the <a href="https://www.nesdev.org/wiki/UxROM">UxROM Mapper</a>, but with a small modification to the standard by adding PRG-RAM starting at $6000.  All code is in 6502 assembly, though C code is used to generate pattern table data from BMP images created in GIMP.  The emulators used for testing are <a href="https://www.mesen.ca/">Mesen</a> and my own <a href="https://github.com/stevenchadburrow/PICnes">PICnes</a>.<br>
 
 <b>Images:</b><br>
 <img src="CardChasmNES-Screenshot.png"><br>
