@@ -544,13 +544,15 @@ card_shuffle
 	LDA random_value_data,Y
 	CMP #$28 ; 40 cards in deck
 	BCS @loop
+	STY math_slot_0
 	TAY
 	LDA card_deck_array,X
-	STA math_slot_0
+	STA math_slot_1
 	LDA card_deck_array,Y
 	STA card_deck_array,X
-	LDA math_slot_0
+	LDA math_slot_1
 	STA card_deck_array,Y
+	LDY math_slot_0
 	INX
 	CPX #$28
 	BNE @loop

@@ -193,25 +193,25 @@ enemies_battle_data
 	.BYTE $00 ; attack
 	.BYTE $40 ; multiplier
 
-	.WORD portrait_data_0 ; portrait
+	.WORD portrait_data_4 ; portrait
 	.BYTE $0F,$15,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
-	.WORD portrait_data_1 ; portrait
+	.WORD portrait_data_4 ; portrait
 	.BYTE $0F,$13,$20 ; colors
 	.BYTE $03 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
-	.WORD portrait_data_2 ; portrait
+	.WORD portrait_data_4 ; portrait
 	.BYTE $0F,$11,$20 ; colors
 	.BYTE $04 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
-	.WORD portrait_data_3 ; portrait
+	.WORD portrait_data_4 ; portrait
 	.BYTE $0F,$18,$20 ; colors
 	.BYTE $05 ; weakness
 	.BYTE $0A ; attack

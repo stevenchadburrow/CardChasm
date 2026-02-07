@@ -96,6 +96,19 @@ tunnel_draw_name_data
 
 	.ORG $FF00
 
+; 80 bytes, 40 cards, following nibbles: symbol/number, blank/movement
+card_deck_initial_data
+	.BYTE $01,$01, $01,$01, $01,$01, $01,$01 ; slash
+	.BYTE $01,$02, $01,$02, $01,$02, $01,$02
+	.BYTE $01,$03, $01,$03, $01,$03, $01,$03
+	.BYTE $01,$04, $01,$04, $01,$04, $01,$04
+	.BYTE $11,$01, $11,$02, $11,$03, $11,$04 ; fire
+	.BYTE $21,$01, $21,$02, $21,$03, $21,$04 ; lightning
+	.BYTE $31,$01, $31,$02, $31,$03, $31,$04 ; ice
+	.BYTE $41,$01, $41,$02, $41,$03, $41,$04 ; shield
+	.BYTE $51,$01, $51,$01, $51,$02, $51,$02 ; heart
+	.BYTE $51,$03, $51,$03, $51,$04, $51,$04
+
 ; interrupts
 
 nmi

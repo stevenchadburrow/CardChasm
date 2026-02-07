@@ -7,6 +7,57 @@ setup
 	LDA #$00
 	STA ppu_status
 
+	; check for start+select on startup to reset save data
+	JSR buttons
+	LDA buttons_value
+	AND #$30
+	CMP #$30
+	BEQ @initial
+
+	; check save file header in ram
+	LDX #$00
+@check
+	LDA save_check,X
+	CMP setup_save_check_data,X
+	BNE @initial
+	INX
+	CPX #$08
+	BNE @check
+	JMP setup_save_jump
+
+	; no save file detected, clear ram
+@initial
+	LDX #$00
+	LDA #$00 ; clear value
+@clear
+	STA save_check,X
+	INX
+	BNE @clear
+
+	; add save file header
+	LDX #$00
+@store
+	LDA setup_save_check_data,X
+	STA save_check,X
+	INX
+	CPX #$08
+	BNE @store
+	
+	; store intial deck information
+	LDX #$00
+@deck
+	LDA card_deck_initial_data,X
+	STA save_deck,X
+	INX
+	CPX #$50 ; 80 bytes
+	BNE @deck 
+
+	JMP setup_save_jump
+
+setup_save_check_data
+	.BYTE $43,$52,$44,$43,$48,$53,$4D,$FF ; CRDCHSM_
+
+setup_save_jump
 	; last two tiles
 	LDA ppu_status
 	LDA #$1F
@@ -46,37 +97,35 @@ setup
 	STA card_location
 	JSR card_setup
 	
-	; TEMPORARY!
 	; create cards into deck
 	LDX #$00
+	LDY #$00
 @card_deck_loop1
 	LDA #$00 ; type (unused)
 	STA card_deck_type,X
-	JSR rand_func ; number
-	CLC
-	ADC #$02
-	AND #$03
-	CLC
-	ADC #$01
+	LDA save_deck,Y
+	AND #$0F
 	STA card_deck_number,X
-	JSR rand_func ; symbol
-	AND #$07
-	CMP #$06
-	BCC @card_deck_sym
-	LDA #$00
-@card_deck_sym
-	PHA
+	LDA save_deck,Y
+	INY
+	LSR A
+	LSR A
+	LSR A
+	LSR A
+	STA math_slot_0
 	CLC
 	ADC #$02
 	STA card_deck_symbol,X
-	PLA ; color
-	TAY
+	TYA
+	PHA
+	LDY math_slot_0
 	LDA setup_card_color_data,Y
 	STA card_deck_color,X
-	JSR rand_func ; movement
-	AND #$03
-	CLC
-	ADC #$01
+	PLA
+	TAY
+	LDA save_deck,Y
+	INY
+	AND #$0F
 	STA card_deck_movement,X
 	INX
 	CPX #$28 ; 40 cards in deck
@@ -101,13 +150,13 @@ setup_card_jump
 	JSR card_shuffle
 
 	; starting hand
-	LDA #$00
+	LDA card_deck_array+0
 	STA card_hand_array+0
-	LDA #$01
+	LDA card_deck_array+1
 	STA card_hand_array+1
-	LDA #$02
+	LDA card_deck_array+2
 	STA card_hand_array+2
-	LDA #$03
+	LDA card_deck_array+3
 	STA card_hand_array+3
 
 	LDA #$04
@@ -121,25 +170,44 @@ setup_card_jump
 
 	; create enemy positions along path
 	LDX #$00
-	JSR rand_func
-	TAY
-	LDA random_value_data,Y
-	TAY
 @enemies_path_loop
-	INY
-	LDA random_value_data,Y
-	AND #$03
-	BNE @enemies_path_zero
 	JSR rand_func
+	TAY
+	LDA random_value_data,Y
+	TAY
+	AND #$03
+	TAY
+	JSR rand_func ; first
 	AND #$03 ; change accordingly
 	CLC
 	ADC #$01
+	AND setup_enemies_array,Y
+	INY
 	STA enemies_page,X
-	BNE @enemies_path_check
-@enemies_path_zero
-	LDA #$00
+	INX
+	JSR rand_func ; second
+	AND #$03 ; change accordingly
+	CLC
+	ADC #$01
+	AND setup_enemies_array,Y
+	INY
 	STA enemies_page,X
-@enemies_path_check
+	INX
+	JSR rand_func ; third
+	AND #$03 ; change accordingly
+	CLC
+	ADC #$01
+	AND setup_enemies_array,Y
+	INY
+	STA enemies_page,X
+	INX
+	JSR rand_func ; fourth
+	AND #$03 ; change accordingly
+	CLC
+	ADC #$01
+	AND setup_enemies_array,Y
+	INY
+	STA enemies_page,X
 	INX
 	BNE @enemies_path_loop	
 	
@@ -151,7 +219,12 @@ setup_card_jump
 	TAX
 	LDA #$02 ; last enemy
 	STA enemies_page,X
+	JMP setup_tunnel_jump
 
+setup_enemies_array
+	.BYTE $00,$00,$00,$FF,$00,$00,$00,$FF
+
+setup_tunnel_jump
 	; TEMPORARY!
 	; decide which tunnel to draw
 	; always in 16-byte values

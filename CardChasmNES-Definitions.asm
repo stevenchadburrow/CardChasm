@@ -248,6 +248,13 @@ _forward		.EQU $2E
 _backward		.EQU $2F
 _space			.EQU $30
 
+; prg-ram
+save_check		.EQU $6000
+save_info		.EQU $6008
+save_deck		.EQU $6030
+save_sideboard	.EQu $6080
+
+; prg-rom
 ; bank #0
 
 font_data_0 	.EQU $8000
