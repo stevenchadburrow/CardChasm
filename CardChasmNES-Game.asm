@@ -11,8 +11,19 @@ game_function
 	STA game_jump_high
 	JMP (game_jump_low)
 
-; waiting to select card while not in battle	
+; running clear and setup functions
 game_function_00
+	JSR clear
+	JSR setup
+	LDA #$02
+	STA game_state
+	LDA #$00
+	STA game_delay_low
+	STA game_delay_high
+	RTS
+
+; waiting to select card while not in battle	
+game_function_02
 	INC selector_animation
 	JSR selector_draw
 	JSR selector_move
@@ -32,13 +43,16 @@ game_function_00
 	LDX selector_position
 	LDA #$FF
 	STA card_hand_array,X
-	LDA #$02
+	LDA #$04
 	STA game_state
+	LDA #$00
+	STA game_delay_low
+	STA game_delay_high
 @skip
 	RTS
 
 ; walking down the tunnel some distance
-game_function_02
+game_function_04
 	JSR selector_clear
 	JSR card_show
 	JSR enemies_draw
@@ -48,7 +62,7 @@ game_function_02
 	BNE @skip
 	LDA #$FF
 	STA card_shift_timer
-	LDA #$04
+	LDA #$06
 	STA game_state
 	LDA #$1E
 	STA game_delay_low
@@ -58,7 +72,7 @@ game_function_02
 	RTS
 
 ; shifting cards and checking for enemy tile
-game_function_04
+game_function_06
 	JSR selector_clear
 	JSR card_shift
 	JSR card_show
@@ -197,13 +211,14 @@ game_function_04
 	STA game_delay_high
 	JMP @skip
 @zero
-	LDA #$00
+	LDA #$02
 	STA game_state
+	LDA #$00
+	STA game_delay_low
+	STA game_delay_high
 @skip
 	RTS
 
-game_function_06
-	RTS
 game_function_08
 	RTS
 game_function_0A
@@ -517,24 +532,60 @@ game_function_18
 	STA game_state
 	BNE @skip
 @dead
-	LDA #$00
+	LDA #$02
 	STA game_state
 @skip
 	RTS
 
 game_function_1A
 	RTS
-
 game_function_1C
 	RTS
 game_function_1E
 	RTS
 
+game_function_20
+	JSR clear
+
+	; draw campsite here
+
+	LDA #$22
+	STA game_state
+	LDA #$00
+	STA game_delay_low
+	STA game_delay_high
+	RTS
+
+game_function_22
+
+	; check level select here
+
+	LDA #$00 ; TEMPORARY!
+	STA game_state
+	LDA #$00
+	STA game_delay_low
+	STA game_delay_high
+	RTS
+
+game_function_24
+	RTS
+game_function_26
+	RTS
+game_function_28
+	RTS
+game_function_2A
+	RTS
+game_function_2C
+	RTS
+game_function_2E
+	RTS
+
+
 game_function_table
-	.WORD game_function_00 ; waiting to select card outside battle
-	.WORD game_function_02 ; walking tunnel animation
-	.WORD game_function_04 ; shifting cards and checking for battle
-	.WORD game_function_06
+	.WORD game_function_00 ; run clear and setup functions
+	.WORD game_function_02 ; waiting to select card outside battle
+	.WORD game_function_04 ; walking tunnel animation
+	.WORD game_function_06 ; shifting cards and checking for battle
 	.WORD game_function_08
 	.WORD game_function_0A
 	.WORD game_function_0C
@@ -548,3 +599,14 @@ game_function_table
 	.WORD game_function_1A
 	.WORD game_function_1C
 	.WORD game_function_1E
+
+	.WORD game_function_20 ; run clear and draw campsite
+	.WORD game_function_22 ; waiting to select level
+	.WORD game_function_24
+	.WORD game_function_26
+	.WORD game_function_28
+	.WORD game_function_2A
+	.WORD game_function_2C
+	.WORD game_function_2E
+
+

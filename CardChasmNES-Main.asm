@@ -116,12 +116,10 @@ init
 	; clear sprites and name/attr tables
 	JSR clear
 
-	; setup variables for game
-	JSR setup
-
-	; clear game state information
-	LDA #$00
+	; start at campsite
+	LDA #$20
 	STA game_state
+	LDA #$00
 	STA game_delay_low
 	STA game_delay_high
 	
