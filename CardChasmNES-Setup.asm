@@ -178,33 +178,33 @@ setup_card_jump
 	AND #$03
 	TAY
 	JSR rand_func ; first
-	AND #$03 ; change accordingly
+	AND #$07 ; change accordingly
 	CLC
-	ADC #$01
+	ADC #$02
 	AND setup_enemies_array,Y
 	INY
 	STA enemies_page,X
 	INX
 	JSR rand_func ; second
-	AND #$03 ; change accordingly
+	AND #$07 ; change accordingly
 	CLC
-	ADC #$01
+	ADC #$02
 	AND setup_enemies_array,Y
 	INY
 	STA enemies_page,X
 	INX
 	JSR rand_func ; third
-	AND #$03 ; change accordingly
+	AND #$07 ; change accordingly
 	CLC
-	ADC #$01
+	ADC #$02
 	AND setup_enemies_array,Y
 	INY
 	STA enemies_page,X
 	INX
 	JSR rand_func ; fourth
-	AND #$03 ; change accordingly
+	AND #$07 ; change accordingly
 	CLC
-	ADC #$01
+	ADC #$02
 	AND setup_enemies_array,Y
 	INY
 	STA enemies_page,X
@@ -217,7 +217,7 @@ setup_card_jump
 	LDA #$40 ; end of tunnel
 	STA enemies_max
 	TAX
-	LDA #$02 ; last enemy
+	LDA #$01 ; boss
 	STA enemies_page,X
 	JMP setup_tunnel_jump
 

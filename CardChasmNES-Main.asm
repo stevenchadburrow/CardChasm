@@ -384,6 +384,16 @@ clear
 	LDA #$02
 	STA oam_dma
 
+	; clear out scroll values
+	LDA #$00
+	STA tunnel_name
+	STA tunnel_scroll
+	STA effects_scroll
+
+	; clear out background color
+	LDA #$0F
+	STA background_color
+
 	RTS
 
 
