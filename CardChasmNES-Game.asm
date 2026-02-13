@@ -546,115 +546,19 @@ game_function_1E
 
 game_function_20
 	JSR clear
-
-	LDA #$00
-	STA ppu_ctrl
-
-	LDA #$00
-	STA ppu_mask
-
-	LDA #$01
-	STA $C000 ; change to bank #1
-	
-	LDA ppu_status
-	LDA #$10
-	STA ppu_addr
-	LDA #$00
-	STA ppu_addr
-	LDA #$80
-	STA grab_high
-	LDA #$00
-	STA grab_low
-	LDX #$00
-	LDY #$00
-@pattern
-	JSR grab_func
-	STA ppu_data
-	INC grab_low
-	BNE @increment1
-	INC grab_high
-@increment1
-	INX
-	BNE @increment2
-	INY
-@increment2
-	CPY #$20
-	BNE @pattern
-
-	LDA ppu_status
-	LDA #$20
-	STA ppu_addr
-	LDA #$80
-	STA ppu_addr
-	LDX #$00
-@name
-	STX ppu_data
-	INX
-	BNE @name
-	
-	LDA ppu_status
-	LDA #$23
-	STA ppu_addr
-	LDA #$C0
-	STA ppu_addr
-	LDX #$40
-	LDA #$00
-@attribute
-	STA ppu_data
-	DEX
-	BNE @attribute
-	
-	LDA ppu_status
-	LDA #$3F
-	STA ppu_addr
-	LDA #$00
-	STA ppu_addr
-	LDA #$0F
-	STA ppu_data
-	LDA #$00
-	STA ppu_data
-	LDA #$10
-	STA ppu_data
-	LDA #$20
-	STA ppu_data
-
-	LDA ppu_status
-	LDA #$3F
-	STA ppu_addr
-	LDA #$10
-	STA ppu_addr
-	LDA #$0F
-	STA ppu_data
-	LDA #$00
-	STA ppu_data
-	LDA #$10
-	STA ppu_data
-	LDA #$20
-	STA ppu_data
-
-	LDA #$00
-	STA $C000 ; change to bank #0
-
-	
-	; draw campsite here
+	JSR title_setup
+	JSR title_draw ; internal loop
 
 	LDA #$22
 	STA game_state
-	LDA #$78 ; TEMPORARY!
-	STA game_delay_low
 	LDA #$00
+	STA game_delay_low
 	STA game_delay_high
 	RTS
 
 game_function_22
 
 	; check level select here
-
-	; TEMPORARY!
-	DEC game_delay_low
-	BEQ @move
-	RTS
-@move
 
 	LDA #$00 ; TEMPORARY!
 	STA game_state

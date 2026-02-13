@@ -136,6 +136,10 @@ main
 	LDA #$00
 	STA vblank_ready
 
+	; disable rendering
+	LDA #$00
+	STA ppu_mask
+
 	; change palettes, name table, and attribute table here
 
 	; set background color and sprite colors
@@ -173,6 +177,9 @@ main
 	; enable rendering
 	LDA #$18
 	STA ppu_mask
+
+	; helps randomize
+	JSR rand_func
 
 	; store buttons
 	JSR buttons

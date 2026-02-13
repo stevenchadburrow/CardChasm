@@ -117,6 +117,8 @@ battle_enemy_health		.EQU $59 ; max of #$40
 battle_choice_position	.EQU $5A ; position in choice array
 battle_choice_shake		.EQU $5B ; shake on enemy turn?
 
+title_position			.EQU $5C
+title_timer				.EQU $5D
 
 ; add more variables here
 

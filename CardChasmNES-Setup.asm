@@ -225,10 +225,14 @@ setup_enemies_array
 	.BYTE $00,$00,$00,$FF,$00,$00,$00,$FF
 
 setup_tunnel_jump
-	; TEMPORARY!
 	; decide which tunnel to draw
 	; always in 16-byte values
-	LDX #$20
+	LDA title_position
+	ASL A
+	ASL A
+	ASL A
+	ASL A
+	TAX
 
 	; tunnel setup info
 	LDA setup_tunnel_data+0,X

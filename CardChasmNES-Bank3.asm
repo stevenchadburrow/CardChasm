@@ -7,6 +7,8 @@
 	.ORG $C000
 
 	.INCSRC CardChasmNES-Main.asm
+	
+	.INCSRC CardChasmNES-Title.asm
 
 	.INCSRC CardChasmNES-Setup.asm
 
