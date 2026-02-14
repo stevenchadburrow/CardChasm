@@ -661,11 +661,14 @@ exchange_draw_loop
 	STA oam_page+3,X
 @selector2
 
+	; jump back to the loop
 	JMP exchange_draw_loop
 
 exchange_draw_exit
 
-	; save changes here
+	; save changes to PRG-RAM
+	JSR card_deck_save
+	JSR card_side_save
 
 	RTS
 

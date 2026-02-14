@@ -633,6 +633,7 @@ title_draw_loop
 	STA ppu_ctrl
 
 @jump
+	; jump back to the loop
 	JMP title_draw_loop
 
 title_draw_exit

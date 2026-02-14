@@ -494,7 +494,7 @@ game_function_16
 	LDA #$00
 	STA battle_player_health
 
-	JMP reset ; TEMPORARY!
+	JMP init
 
 @alive
 	JMP @skip

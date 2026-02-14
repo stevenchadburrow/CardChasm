@@ -162,10 +162,8 @@ reset_save_check_data
 	.BYTE $43,$52,$44,$43,$48,$53,$4D,$FF ; CRDCHSM_
 
 reset_save_jump
-	; load cards into deck
+	; load cards from PRG-RAM
 	JSR card_deck_load	
-
-	; load cards into sideboard
 	JSR card_side_load
 
 ; wait for two v-blank flags

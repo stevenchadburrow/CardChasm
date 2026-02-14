@@ -639,6 +639,71 @@ card_color_data
 	; colors associated with each card symbol
 	.BYTE $1A,$16,$28,$22,$13,$25
 
-	
+; save deck to PRG-RAM
+card_deck_save
+	; transfer cards for deck
+	LDX #$00
+	LDY #$00
+@loop
+	LDA card_deck_number,X
+	AND #$0F
+	STA math_slot_0
+	LDA card_deck_symbol,X
+	AND #$0F
+	ASL A
+	ASL A
+	ASL A
+	ASL A
+	ORA math_slot_0	
+	STA save_deck,Y
+	INY	
+	LDA card_deck_movement,X
+	AND #$0F
+	STA save_deck,Y
+	INY
+	INX
+	CPX #$28 ; 40 cards in deck
+	BNE @loop
+	RTS
+
+; save sideboard to PRG-RAM
+card_side_save
+	; transfer cards for sideboard
+	LDX #$00
+	LDY #$00
+@loop
+	LDA card_side_number,X
+	BEQ @zero
+	LDA card_side_movement,X
+	BEQ @zero
+	LDA card_side_number,X
+	AND #$0F
+	STA math_slot_0
+	LDA card_side_symbol,X
+	AND #$0F
+	ASL A
+	ASL A
+	ASL A
+	ASL A
+	ORA math_slot_0	
+	STA save_side,Y
+	INY	
+	LDA card_side_movement,X
+	AND #$0F
+	STA save_side,Y
+	INY
+	INX
+	CPX #$40 ; 64 cards in sideboard
+	BNE @loop
+@zero
+	LDA #$00
+	STA save_side,Y
+	INY
+	STA save_side,Y
+	INY
+	INX
+	CPX #$40 ; 64 cards in sideboard
+	BNE @loop
+	RTS
 
 
