@@ -87,6 +87,15 @@ reset_randomizer
 	JSR rand_func
 	JSR rand_func
 
+	; delay before checking buttons
+	LDX #$FF
+	LDY #$FF
+@delay
+	DEX
+	BNE @delay
+	DEY
+	BNE @delay
+
 	; check for start+select on startup to reset save data
 	JSR buttons
 	LDA buttons_value
@@ -134,12 +143,18 @@ reset_randomizer
 
 	; store initial sideboard information
 	LDX #$00
-@side
-	LDA #$00
+@side1
+	LDA #$01 ; basic attack cards
+	STA save_side,X
+	INX
+	CPX #$08 ; 8 bytes
+	BNE @side1
+@side2
+	LDA #$00 ; blank cards
 	STA save_side,X
 	INX
 	CPX #$80 ; 128 bytes
-	BNE @side
+	BNE @side2
 
 	JMP reset_save_jump
 

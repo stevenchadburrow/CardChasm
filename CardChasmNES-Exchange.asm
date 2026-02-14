@@ -407,6 +407,48 @@ exchange_draw_loop
 	LDA #$01
 	STA title_position
 @button6
+	LDA buttons_value
+	AND #$80 ; A
+	BEQ @button7
+	LDA buttons_wait
+	BNE @button7
+
+	; check if sideboard card is non-zero
+	LDX exchange_position+0
+	LDY exchange_position+1
+	LDA card_side_number,Y
+	BEQ @button7
+	LDA card_side_movement,Y
+	BEQ @button7
+
+	; exchange between deck and sideboard
+	LDA card_deck_symbol,X
+	PHA
+	LDA card_side_symbol,Y
+	STA card_deck_symbol,X
+	PLA
+	STA card_side_symbol,Y
+	LDA card_deck_color,X
+	PHA
+	LDA card_side_color,Y
+	STA card_deck_color,X
+	PLA
+	STA card_side_color,Y
+	LDA card_deck_number,X
+	PHA
+	LDA card_side_number,Y
+	STA card_deck_number,X
+	PLA
+	STA card_side_number,Y
+	LDA card_deck_movement,X
+	PHA
+	LDA card_side_movement,Y
+	STA card_deck_movement,X
+	PLA
+	STA card_side_movement,Y
+	LDA #$01
+	STA buttons_wait
+@button7
 
 	; increment timer for animation purposes
 	INC title_timer
@@ -524,8 +566,15 @@ exchange_draw_loop
 	CLC
 	ADC #$88 ; add address plus 8
 	STA card_address
+	PHA
+	LDA card_side_number,X
+	BEQ @right_clear
+	LDA card_side_movement,X
+	BEQ @right_clear
 	CPX #$40 ; 64 card max
 	BCC @right_skip
+@right_clear
+	PLA
 	TXA
 	PHA
 	LDX card_address
@@ -540,6 +589,7 @@ exchange_draw_loop
 	TAX
 	JMP @right_increment
 @right_skip
+	PLA
 	SEC
 	SBC #$80 ; remove address
 	CLC
@@ -614,6 +664,9 @@ exchange_draw_loop
 	JMP exchange_draw_loop
 
 exchange_draw_exit
+
+	; save changes here
+
 	RTS
 
 exchange_palette_data

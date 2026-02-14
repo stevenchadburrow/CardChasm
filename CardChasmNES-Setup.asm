@@ -87,7 +87,8 @@ setup_enemies_path_loop
 	AND #$03
 	TAY
 -
-	JSR rand_func ; first
+	; first
+	JSR rand_func
 	AND #$07 ; change accordingly
 	BEQ -
 	CLC
@@ -97,7 +98,9 @@ setup_enemies_path_loop
 	STA enemies_page,X
 	INX
 -
-	JSR rand_func ; second
+	; second
+	JSR rand_func ; extra randomizing
+	JSR rand_func
 	AND #$07 ; change accordingly
 	BEQ -
 	CLC
@@ -107,7 +110,10 @@ setup_enemies_path_loop
 	STA enemies_page,X
 	INX
 -
-	JSR rand_func ; third
+	; third
+	JSR rand_func ; extra randomizing
+	JSR rand_func
+	JSR rand_func
 	AND #$07 ; change accordingly
 	BEQ -
 	CLC
@@ -117,7 +123,11 @@ setup_enemies_path_loop
 	STA enemies_page,X
 	INX
 -
-	JSR rand_func ; fourth
+	; fourth
+	JSR rand_func ; extra randomizing
+	JSR rand_func
+	JSR rand_func
+	JSR rand_func
 	AND #$07 ; change accordingly
 	BEQ -
 	CLC
