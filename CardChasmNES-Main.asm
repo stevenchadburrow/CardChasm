@@ -87,6 +87,98 @@ reset_randomizer
 	JSR rand_func
 	JSR rand_func
 
+	; check for start+select on startup to reset save data
+	JSR buttons
+	LDA buttons_value
+	AND #$30
+	CMP #$30
+	BEQ @initial
+
+	; check save file header in ram
+	LDX #$00
+@check
+	LDA save_check,X
+	CMP reset_save_check_data,X
+	BNE @initial
+	INX
+	CPX #$08
+	BNE @check
+	JMP reset_save_jump
+
+	; no save file detected, clear ram
+@initial
+	LDX #$00
+	LDA #$00 ; clear value
+@clear
+	STA save_check,X
+	INX
+	BNE @clear
+
+	; add save file header
+	LDX #$00
+@store
+	LDA reset_save_check_data,X
+	STA save_check,X
+	INX
+	CPX #$08
+	BNE @store
+	
+	; store intial deck information
+	LDX #$00
+@deck
+	LDA card_deck_initial_data,X
+	STA save_deck,X
+	INX
+	CPX #$50 ; 80 bytes
+	BNE @deck 
+
+	JMP reset_save_jump
+
+reset_save_check_data
+	.BYTE $43,$52,$44,$43,$48,$53,$4D,$FF ; CRDCHSM_
+
+reset_save_jump
+	; transfer cards to deck
+	LDX #$00
+	LDY #$00
+@card_deck_loop1
+	LDA #$00 ; type (unused)
+	STA card_deck_type,X
+	LDA save_deck,Y
+	AND #$0F
+	STA card_deck_number,X
+	LDA save_deck,Y
+	INY
+	LSR A
+	LSR A
+	LSR A
+	LSR A
+	STA math_slot_0
+	CLC
+	ADC #$02
+	STA card_deck_symbol,X
+	TYA
+	PHA
+	LDY math_slot_0
+	LDA reset_card_color_data,Y
+	STA card_deck_color,X
+	PLA
+	TAY
+	LDA save_deck,Y
+	INY
+	AND #$0F
+	STA card_deck_movement,X
+	INX
+	CPX #$28 ; 40 cards in deck
+	BNE @card_deck_loop1
+	JMP reset_card_jump
+
+reset_card_color_data
+	; colors associated with each card symbol
+	.BYTE $1A,$16,$28,$22,$13,$25
+
+reset_card_jump
+
 ; wait for two v-blank flags
 reset_wait
 	BIT ppu_status
@@ -183,6 +275,23 @@ main
 
 	; store buttons
 	JSR buttons
+
+	LDA buttons_value
+	CMP #$40 ; B
+	BNE @buttons_skip1
+	LDA exit_counter
+	CLC
+	ADC #$02
+	STA exit_counter
+	CMP #$88 ; how long until transition
+	BCC @buttons_skip1
+	LDA #$20 ; go to title screen
+	STA game_state
+@buttons_skip1
+	LDA exit_counter
+	BEQ @buttons_skip2
+	DEC exit_counter
+@buttons_skip2
 
 	; do most things here
 

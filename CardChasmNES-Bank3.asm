@@ -10,6 +10,8 @@
 	
 	.INCSRC CardChasmNES-Title.asm
 
+	.INCSRC CardChasmNES-Exchange.asm
+
 	.INCSRC CardChasmNES-Setup.asm
 
 	.INCSRC CardChasmNES-Cards.asm

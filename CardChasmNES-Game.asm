@@ -549,7 +549,19 @@ game_function_20
 	JSR title_setup
 	JSR title_draw ; internal loop
 
-	LDA #$22
+	LDA title_position
+	CMP #$03
+	BCC @level
+
+	LDA #$22 ; card exchange
+	STA game_state
+	LDA #$00
+	STA game_delay_low
+	STA game_delay_high
+	RTS
+
+@level
+	LDA #$00 ; start level
 	STA game_state
 	LDA #$00
 	STA game_delay_low
@@ -557,10 +569,11 @@ game_function_20
 	RTS
 
 game_function_22
+	JSR clear
+	JSR exchange_setup
+	JSR exchange_draw ; internal loop
 
-	; check level select here
-
-	LDA #$00 ; TEMPORARY!
+	LDA #$20 ; back to title screen
 	STA game_state
 	LDA #$00
 	STA game_delay_low
@@ -600,8 +613,8 @@ game_function_table
 	.WORD game_function_1C
 	.WORD game_function_1E
 
-	.WORD game_function_20 ; run clear and draw campsite
-	.WORD game_function_22 ; waiting to select level
+	.WORD game_function_20 ; title screen (with internal loop)
+	.WORD game_function_22 ; exchange screen (with internal loop)
 	.WORD game_function_24
 	.WORD game_function_26
 	.WORD game_function_28

@@ -117,8 +117,12 @@ battle_enemy_health		.EQU $59 ; max of #$40
 battle_choice_position	.EQU $5A ; position in choice array
 battle_choice_shake		.EQU $5B ; shake on enemy turn?
 
-title_position			.EQU $5C
-title_timer				.EQU $5D
+title_position			.EQU $5C ; selector on title screen (and exchange screen)
+title_timer				.EQU $5D ; timer for animations on timer screen (and exchange screen)
+
+exchange_position		.EQU $5E ; uses 2 bytes, selector for exchange screen
+
+exit_counter			.EQU $60 ; counts how long the B button is held to exit back to title screen
 
 ; add more variables here
 
@@ -254,7 +258,7 @@ _space			.EQU $30
 save_check		.EQU $6000
 save_info		.EQU $6008
 save_deck		.EQU $6030
-save_sideboard	.EQu $6080
+save_sideboard	.EQU $6080
 
 ; prg-rom
 ; bank #0

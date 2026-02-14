@@ -7,57 +7,6 @@ setup
 	LDA #$00
 	STA ppu_status
 
-	; check for start+select on startup to reset save data
-	JSR buttons
-	LDA buttons_value
-	AND #$30
-	CMP #$30
-	BEQ @initial
-
-	; check save file header in ram
-	LDX #$00
-@check
-	LDA save_check,X
-	CMP setup_save_check_data,X
-	BNE @initial
-	INX
-	CPX #$08
-	BNE @check
-	JMP setup_save_jump
-
-	; no save file detected, clear ram
-@initial
-	LDX #$00
-	LDA #$00 ; clear value
-@clear
-	STA save_check,X
-	INX
-	BNE @clear
-
-	; add save file header
-	LDX #$00
-@store
-	LDA setup_save_check_data,X
-	STA save_check,X
-	INX
-	CPX #$08
-	BNE @store
-	
-	; store intial deck information
-	LDX #$00
-@deck
-	LDA card_deck_initial_data,X
-	STA save_deck,X
-	INX
-	CPX #$50 ; 80 bytes
-	BNE @deck 
-
-	JMP setup_save_jump
-
-setup_save_check_data
-	.BYTE $43,$52,$44,$43,$48,$53,$4D,$FF ; CRDCHSM_
-
-setup_save_jump
 	; last two tiles
 	LDA ppu_status
 	LDA #$1F
@@ -97,46 +46,6 @@ setup_save_jump
 	STA card_location
 	JSR card_setup
 	
-	; create cards into deck
-	LDX #$00
-	LDY #$00
-@card_deck_loop1
-	LDA #$00 ; type (unused)
-	STA card_deck_type,X
-	LDA save_deck,Y
-	AND #$0F
-	STA card_deck_number,X
-	LDA save_deck,Y
-	INY
-	LSR A
-	LSR A
-	LSR A
-	LSR A
-	STA math_slot_0
-	CLC
-	ADC #$02
-	STA card_deck_symbol,X
-	TYA
-	PHA
-	LDY math_slot_0
-	LDA setup_card_color_data,Y
-	STA card_deck_color,X
-	PLA
-	TAY
-	LDA save_deck,Y
-	INY
-	AND #$0F
-	STA card_deck_movement,X
-	INX
-	CPX #$28 ; 40 cards in deck
-	BNE @card_deck_loop1
-	JMP setup_card_jump
-
-setup_card_color_data
-	; colors associated with each card symbol
-	.BYTE $1A,$16,$28,$22,$13,$25
-
-setup_card_jump
 	; shuffle cards here
 	LDX #$00
 @card_deck_loop2
@@ -369,11 +278,15 @@ setup_tunnel_jump
 
 	; static hud info
 	LDX #$27
-	LDA #$11
+	LDA #$11 ; 'H'
 	STA string_array,X
 	INX
-	LDA #$19
+	LDA #$19 ; 'P'
 	STA string_array,X
+
+	; zero out exit counter
+	LDA #$00
+	STA exit_counter
 
 	RTS
 
@@ -441,7 +354,7 @@ sprite_zero_draw
 	STA oam_page+1
 	LDA #$00 ; palette #0
 	STA oam_page+2
-	LDA #$E8 ; x-value
+	LDA #$F8 ; x-value
 	STA oam_page+3
 	RTS
 

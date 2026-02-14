@@ -290,6 +290,15 @@ bar_draw
 
 ; calls 'bar_draw'
 bar_show
+	; enemy health bar
+	LDA #$08
+	STA bar_position
+	LDA #$08
+	STA bar_length
+	LDA battle_enemy_health
+	STA bar_value
+	JSR bar_draw
+
 	; player health bar
 	LDA #$29
 	STA bar_position
@@ -298,13 +307,13 @@ bar_show
 	LDA battle_player_health
 	STA bar_value
 	JSR bar_draw
-
-	; enemy health bar
-	LDA #$08
+	
+	; player exit counter
+	LDA #$49
 	STA bar_position
-	LDA #$08
+	LDA #$10
 	STA bar_length
-	LDA battle_enemy_health
+	LDA exit_counter
 	STA bar_value
 	JSR bar_draw
 

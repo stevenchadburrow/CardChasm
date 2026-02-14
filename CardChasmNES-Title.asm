@@ -8,6 +8,9 @@ title_setup
 	LDA #$00
 	STA ppu_mask
 
+	LDA #$0F
+	STA background_color
+
 	; clear name table with zeros
 	LDA ppu_status
 	LDA #$20
@@ -123,6 +126,20 @@ title_setup
 	INY
 	CPY #$04
 	BNE @font1
+
+	; credits
+	LDA ppu_status
+	LDA #$23
+	STA ppu_addr
+	LDA #$43
+	STA ppu_addr
+	LDX #$00
+@font4
+	LDA title_credits_data,X
+	STA ppu_data
+	INX
+	CPX #$20
+	BNE @font4
 	
 	; setup attribute table
 	LDA ppu_status
@@ -400,13 +417,17 @@ title_pillar_data
 	.BYTE $A8,$A8,$A8,$A8,$A8,$B8,$E0,$80,$78,$F8,$F8,$F8,$F8,$E0,$80,$00
 
 title_sprite_position_data
-	.BYTE $10,$E0, $2C,$2C ; x-coords, then y-coords
+	.BYTE $10,$E0, $3F,$3F ; x-coords, then y-coords
 
 title_string_data
 	.BYTE _C,_A,_V,_E,_R,_N,__,__
 	.BYTE _F,_O,_R,_E,_S,_T,__,__
 	.BYTE _D,_U,_N,_G,_E,_O,_N,__
-	.BYTE _C,_A,_R,_D,_S,__,__,__
+	.BYTE _E,_X,_C,_H,_A,_N,_G,_E
+
+title_credits_data
+	.BYTE _S,_T,_E,_V,_E,_N,_C,_H,_A,_D,_B,_U,_R,_R,_O,_W
+	.BYTE _plus,_G,_M,_A,_I,_L,_period,_C,_O,_M,__,__,__,__,__,__
 
 title_draw
 	; enable rendering
@@ -479,9 +500,6 @@ title_draw_loop
 
 	; check buttons
 	JSR buttons
-	LDA title_position
-	CMP #$03 ; max number of tunnels
-	BCS @button1
 	LDA buttons_value
 	AND #$80 ; A
 	BEQ @button1
