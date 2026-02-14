@@ -195,12 +195,12 @@ enemies_battle_data
 	.WORD portrait_data_0 ; portrait
 	.BYTE $0F,$18,$20 ; colors
 	.BYTE $02 ; weakness
-	.BYTE $0A ; attack
+	.BYTE $0E ; attack
 	.BYTE $0A ; multiplier
 
 	; reward
 	.WORD reward_data_0 ; portrait
-	.BYTE $00,$18,$20 ; colors
+	.BYTE $00,$10,$20 ; colors
 	.BYTE $00 ; weakness
 	.BYTE $00 ; attack
 	.BYTE $40 ; multiplier
@@ -271,22 +271,22 @@ enemies_name_data
 enemies_phrase_top_data
 	.BYTE _Y,_O,_U,__,_M,_A,_K,_E
 	.BYTE __,__,__,__,__,__,__,__
+	.BYTE _Y,_O,_U,_R,_E,__,_M,_Y
+	.BYTE _Y,_O,_U,_R,_E,__,_M,_Y
 	.BYTE _P,_R,_E,_P,_A,_R,_E,__
 	.BYTE _P,_R,_E,_P,_A,_R,_E,__
-	.BYTE _P,_R,_E,_P,_A,_R,_E,__
-	.BYTE _P,_R,_E,_P,_A,_R,_E,__
-	.BYTE _P,_R,_E,_P,_A,_R,_E,__
-	.BYTE _P,_R,_E,_P,_A,_R,_E,__
+	.BYTE _I,__,_W,_I,_L,_L,__,__
+	.BYTE _I,__,_W,_I,_L,_L,__,__
 
 enemies_phrase_bottom_data
 	.BYTE _M,_E,__,_A,_N,_G,_R,_Y
 	.BYTE __,__,__,__,__,__,__,__
-	.BYTE _Y,_O,_U,_R,_S,_E,_L,_F
-	.BYTE _Y,_O,_U,_R,_S,_E,_L,_F
-	.BYTE _Y,_O,_U,_R,_S,_E,_L,_F
-	.BYTE _Y,_O,_U,_R,_S,_E,_L,_F
-	.BYTE _Y,_O,_U,_R,_S,_E,_L,_F
-	.BYTE _Y,_O,_U,_R,_S,_E,_L,_F
+	.BYTE _T,_A,_R,_G,_E,_T,__,__
+	.BYTE _T,_A,_R,_G,_E,_T,__,__
+	.BYTE _T,_O,__,_D,_I,_E,__,__
+	.BYTE _T,_O,__,_D,_I,_E,__,__
+	.BYTE _E,_N,_D,__,_Y,_O,_U,__
+	.BYTE _E,_N,_D,__,_Y,_O,_U,__
 	
 
 

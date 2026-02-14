@@ -126,9 +126,28 @@ game_function_06
 	STA battle_enemy_attack
 	LDA enemies_battle_data+7,X
 	STA battle_enemy_multi
+	CPX #$00
+	BNE @regular
+	SEC
+	SBC title_difficulty ; make boss harder
+	STA battle_enemy_multi
 	LDA #$40
 	STA battle_enemy_health
-
+	JMP @choices
+@regular
+	CPX #$01
+	BEQ @choices ; skip rewards
+	PHA
+	LDA title_difficulty
+	LSR A
+	STA math_slot_0
+	PLA
+	SEC
+	SBC math_slot_0 ; make all enemies a little harder
+	STA battle_enemy_multi
+	LDA #$40
+	STA battle_enemy_health
+@choices
 	; setup enemy choices
 	LDA #$00
 	STA battle_choice_position
@@ -273,19 +292,19 @@ game_function_12
 	ASL A ; double damage for weakness
 	TAY
 @ready
-	LDA #$00
+	LDA battle_player_level ; start with player level
 @multiply
 	CLC
 	ADC card_deck_number,X
 	BCS @max
-	CMP #$40
+	CMP #$40 ; max value
 	BCS @max
 	DEY
 	BNE @multiply
 	STA battle_player_attack
 	JMP @next
 @max
-	LDA #$40
+	LDA #$40 ; max value
 	STA battle_player_attack
 @next
 	LDA #$20
@@ -358,7 +377,9 @@ game_function_14
 @next
 	LDA game_delay_low
 	CMP #$00
-	BNE @skip
+	BEQ @nonskip
+	JMP @skip
+@nonskip
 
 	LDA battle_enemy_health
 	BEQ @dead
@@ -412,7 +433,11 @@ game_function_14
 	DEX
 	BNE @boss_reward
 
-	LDA #$20 ; jump to title screen
+	; save sideboard to PRG-RAM
+	JSR card_side_save
+
+	; jump to title screen
+	LDA #$20
 	STA game_state
 	LDA #$00
 	STA game_delay_low
@@ -423,6 +448,9 @@ game_function_14
 @reward
 	; give player new card
 	JSR card_side_add
+
+	; save sideboard to PRG-RAM
+	JSR card_side_save
 
 @enemy
 	LDX #$00

@@ -127,7 +127,6 @@ setup_enemies_path_loop
 	JSR rand_func ; extra randomizing
 	JSR rand_func
 	JSR rand_func
-	JSR rand_func
 	AND #$07 ; change accordingly
 	BEQ -
 	CLC
