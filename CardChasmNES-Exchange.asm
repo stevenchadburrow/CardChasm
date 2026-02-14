@@ -323,6 +323,40 @@ exchange_draw_loop
 	LDA #$20
 	STA ppu_data
 
+	; change position counters
+	LDA ppu_status
+	LDA #$22
+	STA ppu_addr
+	LDA #$23
+	STA ppu_addr
+	LDA exchange_position+0
+	CLC
+	ADC #$01
+	STA dec_value
+	JSR dec_func
+	LDA dec_array+2
+	ORA string_location
+	STA ppu_data
+	LDA dec_array+3
+	ORA string_location
+	STA ppu_data
+	LDA ppu_status
+	LDA #$22
+	STA ppu_addr
+	LDA #$3B
+	STA ppu_addr
+	LDA exchange_position+1
+	CLC
+	ADC #$01
+	STA dec_value
+	JSR dec_func
+	LDA dec_array+2
+	ORA string_location
+	STA ppu_data
+	LDA dec_array+3
+	ORA string_location
+	STA ppu_data
+
 	; background on nametable #1
 	LDA #$B0
 	STA ppu_ctrl

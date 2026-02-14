@@ -3,15 +3,9 @@
 
 ; run once before drawing
 tunnel_setup
-	; TEMPORARY!
-	; change bank
-	;LDA #$01
-	;STA $C000
-
 	; setup tunnel tiles
 	LDA #$00
 	STA grab_low
-	;LDA #$80 ; TEMPORARY!
 	LDA tunnel_address
 	STA grab_high
 	LDA ppu_status
@@ -87,11 +81,6 @@ tunnel_setup
 	STA ppu_data
 	LDA tunnel_hud_color3
 	STA ppu_data
-
-	; TEMPORARY!
-	; change bank
-	;LDA #$00
-	;STA $C000
 
 	RTS
 

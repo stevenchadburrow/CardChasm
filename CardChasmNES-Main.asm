@@ -10,7 +10,9 @@ reset
 	; set stack pointer
 	TXS
 
-	; switch to bank 0
+	; UxROM mapper functionality
+	; write to ROM to change bank
+	; switch to bank #0
 	LDA #$00
 	STA $C000
 

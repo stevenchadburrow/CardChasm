@@ -191,48 +191,56 @@ enemies_phrase_clear
 ; data to fill in portrait and battle information
 ; 8 bytes per enemy in each criteria
 enemies_battle_data
+	; boss
 	.WORD portrait_data_0 ; portrait
 	.BYTE $0F,$15,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
+	; reward
 	.WORD reward_data_0 ; portrait
 	.BYTE $00,$10,$20 ; colors
 	.BYTE $00 ; weakness
 	.BYTE $00 ; attack
 	.BYTE $40 ; multiplier
 
+	; enemy
 	.WORD portrait_data_1 ; portrait
 	.BYTE $0F,$15,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
+	; enemy
 	.WORD portrait_data_2 ; portrait
 	.BYTE $0F,$15,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
+	; enemy
 	.WORD portrait_data_3 ; portrait
 	.BYTE $0F,$15,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
+	; enemy
 	.WORD portrait_data_4 ; portrait
 	.BYTE $0F,$15,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
+	; enemy
 	.WORD portrait_data_5 ; portrait
 	.BYTE $0F,$15,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
+	; enemy
 	.WORD portrait_data_6 ; portrait
 	.BYTE $0F,$15,$20 ; colors
 	.BYTE $02 ; weakness

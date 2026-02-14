@@ -395,10 +395,16 @@ game_function_14
 	; check for reward
 	LDX enemies_position
 	LDA enemies_page,X
-	CMP #$03
-	BCC @enemy
-	
-	; give player new card here	
+	BEQ @boss	
+	CMP #$01
+	BEQ @reward
+	BNE @enemy
+
+@boss
+	; give player new card here?
+
+@reward
+	; give player new card here?
 
 @enemy
 	LDX #$00
