@@ -124,6 +124,7 @@ exchange_position		.EQU $5E ; uses 2 bytes, selector for exchange screen
 
 exit_counter			.EQU $60 ; counts how long the B button is held to exit back to title screen
 
+
 ; add more variables here
 
 card_hand_array			.EQU $BE ; uses 4 bytes, cards in hand
@@ -261,6 +262,7 @@ save_deck		.EQU $6030
 save_sideboard	.EQU $6080
 
 ; prg-rom
+
 ; bank #0
 
 font_data_0 	.EQU $8000
@@ -278,6 +280,14 @@ portrait_data_3 .EQU $A000
 portrait_data_4	.EQU $A400
 portrait_data_5	.EQU $A800
 portrait_data_6	.EQU $AC00
+
+title_data_0	.EQU $B000
+
+; bank #1
+
+; bank #2
+
+; bank #3
 
 
 

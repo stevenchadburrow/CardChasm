@@ -135,6 +135,9 @@ exchange_setup
 	STA exchange_position+0
 	STA exchange_position+1
 
+	LDA #$00
+	STA card_shift_timer
+
 	RTS
 
 exchange_selector_data
@@ -368,6 +371,8 @@ exchange_draw_loop
 	STA exchange_position,X
 	LDA #$01
 	STA buttons_wait
+	LDA #$F8 ; shift amount
+	STA card_shift_timer
 @button3
 	LDA buttons_value
 	AND #$04 ; down
@@ -387,6 +392,8 @@ exchange_draw_loop
 	STA exchange_position,X
 	LDA #$01
 	STA buttons_wait
+	LDA #$09 ; shift amount
+	STA card_shift_timer
 @button4
 	LDA buttons_value
 	AND #$02 ; left
@@ -403,6 +410,33 @@ exchange_draw_loop
 
 	; increment timer for animation purposes
 	INC title_timer
+
+	; increment/decrement card shift
+	LDA card_shift_timer
+	BEQ @shift_continue
+	CMP #$80
+	BCC @shift_down
+@shift_up
+	INC card_shift_timer
+	JMP @shift_continue
+@shift_down
+	DEC card_shift_timer
+@shift_continue
+	
+	; then put that shift in the correct column
+	LDA #$00
+	STA math_slot_2
+	STA math_slot_3
+	LDA title_position
+	BEQ @column_left
+@column_right
+	LDA card_shift_timer
+	STA math_slot_3
+	JMP @column_continue
+@column_left
+	LDA card_shift_timer
+	STA math_slot_2
+@column_continue
 	
 	; draw left cards
 	LDA exchange_position+0
@@ -446,6 +480,8 @@ exchange_draw_loop
 	ADC math_slot_0
 	CLC
 	ADC #$0A
+	CLC
+	ADC math_slot_2
 	STA card_y
 	LDA #$40
 	STA card_x
@@ -512,6 +548,8 @@ exchange_draw_loop
 	ADC math_slot_0
 	CLC
 	ADC #$0A
+	CLC
+	ADC math_slot_3
 	STA card_y
 	LDA #$A8
 	STA card_x

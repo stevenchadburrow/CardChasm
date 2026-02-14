@@ -10,7 +10,7 @@ int main(const int argc, const char **argv)
 {
 	if (argc < 6)
 	{
-		printf("Arguments: <PRG-ROM0.BIN> <PRG-ROM1.BIN> <PRG-ROM2.BIN> <PRG-ROM3.BIN> <OUTPUT.NES>\n");
+		printf("Arguments: <PRG-ROM0.BIN> <PRG-ROM1.BIN> <PRG-ROM2.BIN> <PRG-ROM3.BIN> <PRG-ROM4.BIN> <PRG-ROM5.BIN> <PRG-ROM6.BIN> <PRG-ROM7.BIN> <OUTPUT.NES>\n");
 		
 		return 0;
 	}
@@ -35,7 +35,7 @@ int main(const int argc, const char **argv)
 
 	unsigned char buffer = 0;
 
-	for (int i=1; i<=4; i++)
+	for (int i=1; i<=8; i++)
 	{
 		// PRG-ROM
 

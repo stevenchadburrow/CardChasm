@@ -209,37 +209,31 @@ enemies_battle_data
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
-	.WORD portrait_data_1 ; portrait
+	.WORD portrait_data_2 ; portrait
 	.BYTE $0F,$15,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
-	.WORD portrait_data_1 ; portrait
+	.WORD portrait_data_3 ; portrait
 	.BYTE $0F,$15,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
-	.WORD portrait_data_1 ; portrait
+	.WORD portrait_data_4 ; portrait
 	.BYTE $0F,$15,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
-	.WORD portrait_data_1 ; portrait
+	.WORD portrait_data_5 ; portrait
 	.BYTE $0F,$15,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
-	.WORD portrait_data_1 ; portrait
-	.BYTE $0F,$15,$20 ; colors
-	.BYTE $02 ; weakness
-	.BYTE $0A ; attack
-	.BYTE $0A ; multiplier
-
-	.WORD portrait_data_1 ; portrait
+	.WORD portrait_data_6 ; portrait
 	.BYTE $0F,$15,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
@@ -255,18 +249,16 @@ enemies_choice_data
 	.BYTE $01,$00,$02,$01,$01,$00,$02,$01
 	.BYTE $01,$00,$02,$01,$01,$00,$02,$01
 	.BYTE $01,$00,$02,$01,$01,$00,$02,$01
-	.BYTE $01,$00,$02,$01,$01,$00,$02,$01
 
 enemies_name_data
-	.BYTE _S,_T,_E,_F,_A,_N,_I,__
+	.BYTE _B,_O,_S,_S,__,__,__,__
 	.BYTE __,_R,_E,_W,_A,_R,_D,__
-	.BYTE _T,_E,_S,_T,_I,_N,_G,__
-	.BYTE _T,_E,_S,_T,_I,_N,_G,__
-	.BYTE _T,_E,_S,_T,_I,_N,_G,__
-	.BYTE _T,_E,_S,_T,_I,_N,_G,__
-	.BYTE _T,_E,_S,_T,_I,_N,_G,__
-	.BYTE _T,_E,_S,_T,_I,_N,_G,__
-	.BYTE _T,_E,_S,_T,_I,_N,_G,__
+	.BYTE _A,_R,_C,_H,_E,_R,__,__
+	.BYTE _A,_R,_C,_H,_E,_R,__,__
+	.BYTE _F,_I,_G,_H,_T,_E,_R,__
+	.BYTE _F,_I,_G,_H,_T,_E,_R,__
+	.BYTE _R,_O,_G,_U,_E,__,__,__
+	.BYTE _R,_O,_G,_U,_E,__,__,__
 
 enemies_phrase_top_data
 	.BYTE _Y,_O,_U,__,_M,_A,_K,_E
@@ -277,12 +269,10 @@ enemies_phrase_top_data
 	.BYTE _P,_R,_E,_P,_A,_R,_E,__
 	.BYTE _P,_R,_E,_P,_A,_R,_E,__
 	.BYTE _P,_R,_E,_P,_A,_R,_E,__
-	.BYTE _P,_R,_E,_P,_A,_R,_E,__
 
 enemies_phrase_bottom_data
 	.BYTE _M,_E,__,_A,_N,_G,_R,_Y
 	.BYTE __,__,__,__,__,__,__,__
-	.BYTE _Y,_O,_U,_R,_S,_E,_L,_F
 	.BYTE _Y,_O,_U,_R,_S,_E,_L,_F
 	.BYTE _Y,_O,_U,_R,_S,_E,_L,_F
 	.BYTE _Y,_O,_U,_R,_S,_E,_L,_F

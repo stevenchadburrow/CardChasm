@@ -79,46 +79,54 @@ setup
 
 	; create enemy positions along path
 	LDX #$00
-@enemies_path_loop
+setup_enemies_path_loop
 	JSR rand_func
 	TAY
 	LDA random_value_data,Y
 	TAY
 	AND #$03
 	TAY
+-
 	JSR rand_func ; first
 	AND #$07 ; change accordingly
+	BEQ -
 	CLC
-	ADC #$02
+	ADC #$01
 	AND setup_enemies_array,Y
 	INY
 	STA enemies_page,X
 	INX
+-
 	JSR rand_func ; second
 	AND #$07 ; change accordingly
+	BEQ -
 	CLC
-	ADC #$02
+	ADC #$01
 	AND setup_enemies_array,Y
 	INY
 	STA enemies_page,X
 	INX
+-
 	JSR rand_func ; third
 	AND #$07 ; change accordingly
+	BEQ -
 	CLC
-	ADC #$02
+	ADC #$01
 	AND setup_enemies_array,Y
 	INY
 	STA enemies_page,X
 	INX
+-
 	JSR rand_func ; fourth
 	AND #$07 ; change accordingly
+	BEQ -
 	CLC
-	ADC #$02
+	ADC #$01
 	AND setup_enemies_array,Y
 	INY
 	STA enemies_page,X
 	INX
-	BNE @enemies_path_loop	
+	BNE setup_enemies_path_loop	
 	
 	; intial setup
 	LDA #$00

@@ -26,10 +26,6 @@ title_setup
 	BNE @clear
 	DEY
 	BNE @clear
-
-	; change to bank #1
-	LDA #$01
-	STA $C000
 	
 	; draw title to pattern table #1
 	LDA ppu_status
@@ -37,9 +33,9 @@ title_setup
 	STA ppu_addr
 	LDA #$00
 	STA ppu_addr
-	LDA #$80
+	LDA #>title_data_0
 	STA grab_high
-	LDA #$00
+	LDA #<title_data_0
 	STA grab_low
 	LDX #$00
 	LDY #$00
@@ -56,10 +52,6 @@ title_setup
 @increment2
 	CPY #$10
 	BNE @pattern
-
-	; change to bank #0
-	LDA #$00
-	STA $C000
 
 	; draw font to pattern table #0
 	LDA #$00
