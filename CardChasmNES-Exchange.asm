@@ -315,7 +315,7 @@ exchange_draw_loop
 	LDX exchange_position+1
 	LDA #$0F
 	STA ppu_data	
-	LDA card_deck_color,X ; TEMPORARY!
+	LDA card_side_color,X
 	STA ppu_data
 	CLC
 	ADC #$10
@@ -380,7 +380,7 @@ exchange_draw_loop
 	LDA exchange_position,X
 	CPX #$00
 	BEQ @button_check1
-	CMP #$7F ; one less than max
+	CMP #$3F ; one less than max
 	BEQ @button4
 	BNE @button_check2
 @button_check1
@@ -524,7 +524,7 @@ exchange_draw_loop
 	CLC
 	ADC #$88 ; add address plus 8
 	STA card_address
-	CPX #$80 ; 128 card max
+	CPX #$40 ; 64 card max
 	BCC @right_skip
 	TXA
 	PHA
@@ -556,11 +556,11 @@ exchange_draw_loop
 	LDA exchange_palette_data,Y
 	ASL A
 	STA card_palette
-	LDA card_deck_number,X ; TEMPORARY!
+	LDA card_side_number,X
 	STA card_top_number
-	LDA card_deck_symbol,X ; TEMPORARY!
+	LDA card_side_symbol,X
 	STA card_top_symbol
-	LDA card_deck_movement,X ; TEMPORARY!
+	LDA card_side_movement,X
 	STA card_bottom_number
 	LDA #$08
 	STA card_bottom_symbol

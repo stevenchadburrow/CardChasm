@@ -132,52 +132,26 @@ reset_randomizer
 	CPX #$50 ; 80 bytes
 	BNE @deck 
 
+	; store initial sideboard information
+	LDX #$00
+@side
+	LDA #$00
+	STA save_side,X
+	INX
+	CPX #$80 ; 128 bytes
+	BNE @side
+
 	JMP reset_save_jump
 
 reset_save_check_data
 	.BYTE $43,$52,$44,$43,$48,$53,$4D,$FF ; CRDCHSM_
 
 reset_save_jump
-	; transfer cards to deck
-	LDX #$00
-	LDY #$00
-@card_deck_loop1
-	LDA #$00 ; type (unused)
-	STA card_deck_type,X
-	LDA save_deck,Y
-	AND #$0F
-	STA card_deck_number,X
-	LDA save_deck,Y
-	INY
-	LSR A
-	LSR A
-	LSR A
-	LSR A
-	STA math_slot_0
-	CLC
-	ADC #$02
-	STA card_deck_symbol,X
-	TYA
-	PHA
-	LDY math_slot_0
-	LDA reset_card_color_data,Y
-	STA card_deck_color,X
-	PLA
-	TAY
-	LDA save_deck,Y
-	INY
-	AND #$0F
-	STA card_deck_movement,X
-	INX
-	CPX #$28 ; 40 cards in deck
-	BNE @card_deck_loop1
-	JMP reset_card_jump
+	; load cards into deck
+	JSR card_deck_load	
 
-reset_card_color_data
-	; colors associated with each card symbol
-	.BYTE $1A,$16,$28,$22,$13,$25
-
-reset_card_jump
+	; load cards into sideboard
+	JSR card_side_load
 
 ; wait for two v-blank flags
 reset_wait

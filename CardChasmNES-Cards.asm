@@ -563,5 +563,82 @@ card_shuffle
 	RTS
 
 
+; load deck from PRG-RAM
+card_deck_load
+	; transfer cards to deck
+	LDX #$00
+	LDY #$00
+@loop
+	LDA #$00 ; type (unused)
+	STA card_deck_type,X
+	LDA save_deck,Y
+	AND #$0F
+	STA card_deck_number,X
+	LDA save_deck,Y
+	INY
+	LSR A
+	LSR A
+	LSR A
+	LSR A
+	STA math_slot_0
+	CLC
+	ADC #$02
+	STA card_deck_symbol,X
+	TYA
+	PHA
+	LDY math_slot_0
+	LDA card_color_data,Y
+	STA card_deck_color,X
+	PLA
+	TAY
+	LDA save_deck,Y
+	INY
+	AND #$0F
+	STA card_deck_movement,X
+	INX
+	CPX #$28 ; 40 cards in deck
+	BNE @loop
+	RTS
+
+; load sideboard from PRG-RAM
+card_side_load
+	; transfer cards to sideboard
+	LDX #$00
+	LDY #$00
+@loop
+	LDA save_side,Y
+	AND #$0F
+	STA card_side_number,X
+	LDA save_side,Y
+	INY
+	LSR A
+	LSR A
+	LSR A
+	LSR A
+	STA math_slot_0
+	CLC
+	ADC #$02
+	STA card_side_symbol,X
+	TYA
+	PHA
+	LDY math_slot_0
+	LDA card_color_data,Y
+	STA card_side_color,X
+	PLA
+	TAY
+	LDA save_side,Y
+	INY
+	AND #$0F
+	STA card_side_movement,X
+	INX
+	CPX #$40 ; 64 cards in sideboard
+	BNE @loop
+	RTS
+
+card_color_data
+	; colors associated with each card symbol
+	.BYTE $1A,$16,$28,$22,$13,$25
+
+	
 
 

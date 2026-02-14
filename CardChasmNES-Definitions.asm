@@ -152,17 +152,23 @@ oam_page 				.EQU $0200 ; sprite oam data ready for dma
 
 ; 40 cards in the deck
 card_deck_type			.EQU $0300 ; 'type' is currently unused
-card_deck_color			.EQU $0328 ; color is associated with symbol
-card_deck_symbol		.EQU $0350
+card_deck_symbol		.EQU $0328
+card_deck_color			.EQU $0350 ; color is associated with symbol
 card_deck_number		.EQU $0378
 card_deck_movement		.EQU $03A0
 card_deck_array			.EQU $03C8 ; up to 40 cards in library
 
-enemies_page			.EQU $0400 ; enemies along path
+card_side_symbol		.EQU $0400 ; up to 64 cards in sideboard
+card_side_color			.EQU $0440
+card_side_number		.EQU $0480
+card_side_movement		.EQU $04C0
 
-string_array			.EQU $0500 ; uses 128 bytes, 32 bytes above enemy, 96 bytes in hud
+enemies_page			.EQU $0500 ; uses 256 byutes, enemies along path
+
+string_array			.EQU $0600 ; uses 128 bytes, 32 bytes above enemy, 96 bytes in hud
 
 ; add more variables here
+
 
 ; registers
 
@@ -259,7 +265,7 @@ _space			.EQU $30
 save_check		.EQU $6000
 save_info		.EQU $6008
 save_deck		.EQU $6030
-save_sideboard	.EQU $6080
+save_side		.EQU $6080
 
 ; prg-rom
 
