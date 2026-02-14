@@ -191,58 +191,58 @@ enemies_phrase_clear
 ; data to fill in portrait and battle information
 ; 8 bytes per enemy in each criteria
 enemies_battle_data
-	; boss
+	; magician (boss)
 	.WORD portrait_data_0 ; portrait
-	.BYTE $0F,$15,$20 ; colors
+	.BYTE $0F,$18,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
 	; reward
 	.WORD reward_data_0 ; portrait
-	.BYTE $00,$10,$20 ; colors
+	.BYTE $00,$18,$20 ; colors
 	.BYTE $00 ; weakness
 	.BYTE $00 ; attack
 	.BYTE $40 ; multiplier
 
-	; enemy
+	; archer male
 	.WORD portrait_data_1 ; portrait
-	.BYTE $0F,$15,$20 ; colors
+	.BYTE $0F,$1B,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
-	; enemy
+	; archer female
 	.WORD portrait_data_2 ; portrait
-	.BYTE $0F,$15,$20 ; colors
+	.BYTE $0F,$1B,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
-	; enemy
+	; fighter male
 	.WORD portrait_data_3 ; portrait
 	.BYTE $0F,$15,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
-	; enemy
+	; fighter female
 	.WORD portrait_data_4 ; portrait
 	.BYTE $0F,$15,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
-	; enemy
+	; rogue male
 	.WORD portrait_data_5 ; portrait
-	.BYTE $0F,$15,$20 ; colors
+	.BYTE $0F,$12,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
-	; enemy
+	; rogue female
 	.WORD portrait_data_6 ; portrait
-	.BYTE $0F,$15,$20 ; colors
+	.BYTE $0F,$12,$20 ; colors
 	.BYTE $02 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
@@ -259,7 +259,7 @@ enemies_choice_data
 	.BYTE $01,$00,$02,$01,$01,$00,$02,$01
 
 enemies_name_data
-	.BYTE _B,_O,_S,_S,__,__,__,__
+	.BYTE _M,_A,_G,_I,_C,_I,_A,_N
 	.BYTE __,_R,_E,_W,_A,_R,_D,__
 	.BYTE _A,_R,_C,_H,_E,_R,__,__
 	.BYTE _A,_R,_C,_H,_E,_R,__,__

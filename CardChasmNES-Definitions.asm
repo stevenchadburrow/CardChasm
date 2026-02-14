@@ -117,12 +117,17 @@ battle_enemy_health		.EQU $59 ; max of #$40
 battle_choice_position	.EQU $5A ; position in choice array
 battle_choice_shake		.EQU $5B ; shake on enemy turn?
 
-title_position			.EQU $5C ; selector on title screen (and exchange screen)
-title_timer				.EQU $5D ; timer for animations on timer screen (and exchange screen)
+battle_player_level		.EQU $5C ; how many enemies that have been defeated
 
-exchange_position		.EQU $5E ; uses 2 bytes, selector for exchange screen
+exit_counter			.EQU $5D ; counts how long the B button is held to exit back to title screen
 
-exit_counter			.EQU $60 ; counts how long the B button is held to exit back to title screen
+reward_position			.EQU $5E ; uses 2 bytes, selector for rewards screen
+
+title_position			.EQU $60 ; selector on title screen (and rewards screen)
+title_difficulty		.EQU $61 ; difficulty on title screen
+title_timer				.EQU $62 ; timer for animations on timer screen (and rewards screen)
+
+
 
 
 ; add more variables here

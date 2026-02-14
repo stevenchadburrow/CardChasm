@@ -282,6 +282,33 @@ main
 	DEC exit_counter
 @buttons_skip2
 
+	; display player level
+	LDA battle_player_level
+	STA dec_value
+	JSR dec_func
+	LDX #$4D
+	LDA #$15 ; 'L'
+	STA string_array,X
+	INX
+	LDA #$1F ; 'V'
+	STA string_array,X
+	INX
+	LDA #$15 ; 'L'
+	STA string_array,X
+	INX
+	LDA #$28 ; 'colon'
+	STA string_array,X
+	INX
+	LDA #$30 ; 'space'
+	STA string_array,X
+	INX
+	LDA dec_array+2
+	STA string_array,X
+	INX
+	LDA dec_array+3
+	STA string_array,X
+	INX
+
 	; do most things here
 
 	; check game state to do what is needed

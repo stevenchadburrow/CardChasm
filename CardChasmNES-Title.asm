@@ -381,6 +381,8 @@ title_setup
 	LDA #$00
 	STA title_position
 	STA title_timer
+	LDA #$01
+	STA title_difficulty
 	
 	RTS
 
@@ -415,7 +417,7 @@ title_string_data
 	.BYTE _C,_A,_V,_E,_R,_N,__,__
 	.BYTE _F,_O,_R,_E,_S,_T,__,__
 	.BYTE _D,_U,_N,_G,_E,_O,_N,__
-	.BYTE _E,_X,_C,_H,_A,_N,_G,_E
+	.BYTE _R,_E,_W,_A,_R,_D,_S,__
 
 title_credits_data
 	.BYTE _S,_T,_E,_V,_E,_N,_C,_H,_A,_D,_B,_U,_R,_R,_O,_W
@@ -468,6 +470,53 @@ title_draw_loop
 	ADC #$10
 	STA ppu_data
 
+	; draw difficulty
+	LDY #$00
+@font1
+	LDA ppu_status
+	LDA #$22
+	STA ppu_addr
+	TYA
+	ASL A
+	ASL A
+	ASL A
+	ASL A
+	ASL A
+	ASL A
+	CLC
+	ADC #$10 ; horizontal shift
+	STA ppu_addr
+	CPY title_position
+	BEQ @font2
+	LDA #$30
+	STA ppu_data
+	STA ppu_data
+	STA ppu_data
+	STA ppu_data
+	STA ppu_data
+	STA ppu_data
+	STA ppu_data
+	STA ppu_data
+	BNE @font6
+@font2
+	LDX #$00
+@font3
+	CPX title_difficulty
+	BCC @font4
+	LDA #$30
+	BNE @font5
+@font4
+	LDA #$3E
+@font5
+	STA ppu_data
+	INX
+	CPX #$08
+	BNE @font3
+@font6
+	INY
+	CPY #$03
+	BNE @font1
+	
 	; background on nametable #1
 	LDA #$B0
 	STA ppu_ctrl
@@ -528,6 +577,30 @@ title_draw_loop
 	LDA #$01
 	STA buttons_wait
 @button4
+	LDA buttons_value
+	AND #$02 ; left
+	BEQ @button5
+	LDA buttons_wait
+	BNE @button5
+	LDA title_difficulty
+	CMP #$01
+	BEQ @button5
+	DEC title_difficulty
+	LDA #$01
+	STA buttons_wait
+@button5
+	LDA buttons_value
+	AND #$01 ; right
+	BEQ @button6
+	LDA buttons_wait
+	BNE @button6
+	LDA title_difficulty
+	CMP #$08
+	BEQ @button6
+	INC title_difficulty
+	LDA #$01
+	STA buttons_wait
+@button6
 
 	; increment timer for animation purposes
 	INC title_timer

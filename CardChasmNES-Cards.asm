@@ -706,4 +706,51 @@ card_side_save
 	BNE @loop
 	RTS
 
+; add a random card to sideboard
+card_side_add
+	TXA
+	PHA
+	TYA
+	PHA
+	LDX #$00
+@loop
+	LDA card_side_number,X
+	BEQ @zero
+	LDA card_side_movement,X
+	BEQ @zero
+	INX
+	CPX #$40 ; 64 cards in sideboard
+	BNE @loop
+	BEQ @exit ; if sideboard is full, no reward
+@zero
+	; randomized card
+	JSR rand_func
+	AND #$07
+	CMP #$06
+	BEQ @zero
+	CMP #$07
+	BEQ @zero
+	TAY
+	LDA card_color_data,Y
+	STA card_side_color,X
+	TYA
+	CLC
+	ADC #$02
+	STA card_side_symbol,X
+	JSR rand_func
+	AND #$03
+	CLC
+	ADC #$01
+	STA card_side_number,X
+	JSR rand_func
+	AND #$03
+	CLC
+	ADC #$01
+	STA card_side_movement,X
+@exit
+	PLA
+	TAY
+	PLA
+	TAX
+	RTS
 

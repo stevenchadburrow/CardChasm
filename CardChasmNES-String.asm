@@ -309,7 +309,7 @@ bar_show
 	JSR bar_draw
 	
 	; player exit counter
-	LDA #$49
+	LDA #$69
 	STA bar_position
 	LDA #$10
 	STA bar_length

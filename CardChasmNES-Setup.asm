@@ -141,10 +141,16 @@ setup_enemies_path_loop
 	; intial setup
 	LDA #$00
 	STA enemies_position
-	LDA #$40 ; end of tunnel
+	LDA #$00
+	LDX title_difficulty
+@multiply
+	CLC
+	ADC #$18 ; multiply for tunnel length
+	DEX
+	BNE @multiply
 	STA enemies_max
 	TAX
-	LDA #$01 ; boss
+	LDA #$01 ; boss at the end
 	STA enemies_page,X
 	JMP setup_tunnel_jump
 
@@ -263,6 +269,9 @@ setup_tunnel_jump
 	STA battle_enemy_attack
 	LDA #$00
 	STA battle_enemy_multi
+
+	LDA #$00
+	STA battle_player_level
 
 	; more battle variables
 	LDA #$80 ; 128 in decimal

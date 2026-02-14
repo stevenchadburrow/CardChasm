@@ -395,16 +395,34 @@ game_function_14
 	; check for reward
 	LDX enemies_position
 	LDA enemies_page,X
-	BEQ @boss	
 	CMP #$01
+	BEQ @boss	
+	CMP #$02
 	BEQ @reward
+	
+	; level up!
+	INC battle_player_level
 	BNE @enemy
 
 @boss
-	; give player new card here?
+	; give player new cards
+	LDX title_difficulty
+@boss_reward
+	JSR card_side_add
+	DEX
+	BNE @boss_reward
+
+	LDA #$20 ; jump to title screen
+	STA game_state
+	LDA #$00
+	STA game_delay_low
+	LDA #$00
+	STA game_delay_high
+	RTS
 
 @reward
-	; give player new card here?
+	; give player new card
+	JSR card_side_add
 
 @enemy
 	LDX #$00
@@ -559,7 +577,7 @@ game_function_20
 	CMP #$03
 	BCC @level
 
-	LDA #$22 ; card exchange
+	LDA #$22 ; card rewards
 	STA game_state
 	LDA #$00
 	STA game_delay_low
@@ -576,8 +594,8 @@ game_function_20
 
 game_function_22
 	JSR clear
-	JSR exchange_setup
-	JSR exchange_draw ; internal loop
+	JSR reward_setup
+	JSR reward_draw ; internal loop
 
 	LDA #$20 ; back to title screen
 	STA game_state
@@ -620,7 +638,7 @@ game_function_table
 	.WORD game_function_1E
 
 	.WORD game_function_20 ; title screen (with internal loop)
-	.WORD game_function_22 ; exchange screen (with internal loop)
+	.WORD game_function_22 ; rewards screen (with internal loop)
 	.WORD game_function_24
 	.WORD game_function_26
 	.WORD game_function_28
