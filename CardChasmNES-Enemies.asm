@@ -208,42 +208,42 @@ enemies_battle_data
 	; archer male
 	.WORD portrait_data_1 ; portrait
 	.BYTE $0F,$1B,$20 ; colors
-	.BYTE $02 ; weakness
+	.BYTE $03 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
 	; archer female
 	.WORD portrait_data_2 ; portrait
 	.BYTE $0F,$1B,$20 ; colors
-	.BYTE $02 ; weakness
+	.BYTE $03 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
 	; fighter male
 	.WORD portrait_data_3 ; portrait
 	.BYTE $0F,$15,$20 ; colors
-	.BYTE $02 ; weakness
+	.BYTE $04 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
 	; fighter female
 	.WORD portrait_data_4 ; portrait
 	.BYTE $0F,$15,$20 ; colors
-	.BYTE $02 ; weakness
+	.BYTE $04 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
 	; rogue male
 	.WORD portrait_data_5 ; portrait
 	.BYTE $0F,$12,$20 ; colors
-	.BYTE $02 ; weakness
+	.BYTE $05 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
 	; rogue female
 	.WORD portrait_data_6 ; portrait
 	.BYTE $0F,$12,$20 ; colors
-	.BYTE $02 ; weakness
+	.BYTE $05 ; weakness
 	.BYTE $0A ; attack
 	.BYTE $0A ; multiplier
 
