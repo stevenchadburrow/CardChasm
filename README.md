@@ -11,5 +11,8 @@ Some modifications I am doing here are using elemental attack types and weakness
 The target mapper used for this game is the <a href="https://www.nesdev.org/wiki/UxROM">UxROM Mapper</a>, but with a small modification to the standard by adding PRG-RAM starting at $6000.  All code is in 6502 assembly, though C code is used to generate pattern table data from BMP images created in GIMP.  The emulators used for testing are <a href="https://www.mesen.ca/">Mesen</a> and my own <a href="https://github.com/stevenchadburrow/PICnes">PICnes</a>.<br>
 
 <b>Images:</b><br>
-<img src="CardChasmNES-Screenshot.png"><br>
-<img src="CardChasmNES-Gameplay.gif"><br>
+<img src="CardChasmNES-Screenshot-A.png"><br>
+<img src="CardChasmNES-Screenshot-B.png"><br>
+<img src="CardChasmNES-Screenshot-C.png"><br>
+<img src="CardChasmNES-Gameplay-A.gif"><br>
+<img src="CardChasmNES-Gameplay-B.gif"><br>
