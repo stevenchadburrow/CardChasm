@@ -203,7 +203,7 @@ bar_setup
 	CLC
 	ADC #$10
 	STA ppu_addr
-	LDA #$00
+	LDA #$20 ; shifted over 2 tiles horizontally
 	STA ppu_addr
 	LDX #$00
 @loop
@@ -246,6 +246,8 @@ bar_draw
 	SBC math_slot_0
 	CLC
 	ADC bar_location
+	CLC
+	ADC #$02 ; horizontal shift
 	STA string_array,X
 	INX
 	INY
@@ -253,6 +255,8 @@ bar_draw
 	
 @equal
 	LDA bar_location
+	CLC
+	ADC #$02 ; horizontal shift
 	CLC
 	ADC #$08
 	STA string_array,X
@@ -262,6 +266,8 @@ bar_draw
 
 @more
 	LDA bar_location
+	CLC
+	ADC #$02 ; horizontal shift
 	CLC
 	ADC #$09
 	STA string_array,X
@@ -279,6 +285,8 @@ bar_draw
 	CPY bar_length
 	BCS @exit
 	LDA bar_location
+	CLC
+	ADC #$02 ; horizontal shift
 	STA string_array,X
 	INX
 	INY

@@ -120,9 +120,12 @@ tunnel_draw_closed
 @loop3
 	JSR grab_func
 	CMP #$FF
-	BEQ @skip1
+	BEQ @blank1
 	CLC
 	ADC tunnel_location
+	JMP @skip1
+@blank1
+	LDA #$31 ; blank
 @skip1
 	;STA ppu_data
 	JSR tunnel_draw_store
@@ -155,7 +158,7 @@ tunnel_draw_closed
 	BNE @loop4
 	
 	LDX #$80
-	LDA #$FF
+	LDA #$31 ; blank
 @loop5
 	;STA ppu_data
 	JSR tunnel_draw_store
@@ -195,9 +198,12 @@ tunnel_draw_open
 @loop2
 	JSR grab_func
 	CMP #$FF
-	BEQ @skip1
+	BEQ @blank1
 	CLC
 	ADC tunnel_location
+	JMP @skip1
+@blank1
+	LDA #$31 ; blank
 @skip1
 	;STA ppu_data
 	JSR tunnel_draw_store
@@ -230,7 +236,7 @@ tunnel_draw_open
 	BNE @loop3
 	
 	LDX #$80
-	LDA #$FF
+	LDA #$31 ; blank
 @loop4
 	;STA ppu_data
 	JSR tunnel_draw_store
@@ -252,12 +258,15 @@ tunnel_draw_open
 @loop6
 	JSR grab_func
 	CMP #$FF
-	BEQ @skip3
+	BEQ @blank2
 	CLC
 	ADC tunnel_location
 	AND math_slot_0
 	CLC
 	ADC #$20
+	JMP @skip3
+@blank2
+	LDA #$31 ; blank
 @skip3
 	;STA ppu_data
 	JSR tunnel_draw_store

@@ -13,22 +13,6 @@ setup
 	STA ppu_addr
 	LDA #$E0
 	STA ppu_addr
-	
-	; full tile (table $01, tile $FE)
-	LDX #$10
-	LDA #$FF
-@last_tiles_loop1
-	STA ppu_data
-	DEX
-	BNE @last_tiles_loop1
-
-	; blank tile (table $01, tile $FF)
-	LDX #$10
-	LDA #$00
-@last_tiles_loop2
-	STA ppu_data
-	DEX
-	BNE @last_tiles_loop2
 
 	; sprite zero 
 	JSR sprite_zero_setup
@@ -246,17 +230,6 @@ setup_tunnel_jump
 	LDA #$00
 	STA effects_direction
 
-	; bar setup
-	LDA #$C0
-	STA bar_location
-	LDA #$00
-	STA bar_position
-	LDA #$00
-	STA bar_value
-	LDA #$00
-	STA bar_length
-	JSR bar_setup
-
 	; battle variables
 	LDA #$00
 	STA battle_player_type
@@ -290,6 +263,30 @@ setup_tunnel_jump
 	LDA #$20
 	STA string_color3
 	JSR string_setup
+
+	; bar setup (table $01, tiles $32+, overwrites string_setup)
+	LDA #$30
+	STA bar_location
+	LDA #$00
+	STA bar_position
+	LDA #$00
+	STA bar_value
+	LDA #$00
+	STA bar_length
+	JSR bar_setup
+
+	; blank tile (table $01, tile $31, overwrites string_setup)
+	LDA ppu_status
+	LDA #$13
+	STA ppu_addr
+	LDA #$10
+	STA ppu_addr
+	LDX #$10
+	LDA #$00
+@last_tiles_loop2
+	STA ppu_data
+	DEX
+	BNE @last_tiles_loop2
 
 	; blank string tiles
 	LDX #$00
