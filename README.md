@@ -13,10 +13,9 @@ Some modifications I am doing here are using elemental attack types and weakness
 The target mapper used for this game is the <a href="https://www.nesdev.org/wiki/UxROM">UxROM Mapper</a>, but with a small modification to the standard by adding PRG-RAM starting at $6000.  All code is in 6502 assembly using the 'asm6' assembler found at <a href="https://www.nesdev.org/wiki/Tools">NESdev.org Tools</a>.  My own C code is used to generate pattern table data from BMP images created in <a href="https://www.gimp.org/downloads/">GIMP</a>.  One of the <a href="https://perchance.org/ai-anime-generator">Perchance AI Image Generators</a> assisted in making the enemy images and the title logo.  The emulators used for testing are <a href="https://www.mesen.ca/">Mesen</a> and my own <a href="https://github.com/stevenchadburrow/PICnes">PICnes</a>.<br>
 
 <b>To Do:</b><br>
-- Music for all portions of the game.
-- More enemies.
-- More polish.
-- Better math.
+- Music for title screen and each level.
+- More enemies, specific enemies to each level.
+- Better math, better randomization.
 
 <b>Images:</b><br>
 <img src="CardChasmNES-Logo.png"><br>
