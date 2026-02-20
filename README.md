@@ -14,7 +14,9 @@ The target mapper used for this game is the <a href="https://www.nesdev.org/wiki
 
 <b>To Do:</b><br>
 - Music for all portions of the game.
-- More enemies, more polish.
+- More enemies.
+- More polish.
+- Better math.
 
 <b>Images:</b><br>
 <img src="CardChasmNES-Logo.png"><br>
