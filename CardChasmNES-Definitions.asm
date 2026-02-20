@@ -127,7 +127,10 @@ title_position			.EQU $60 ; selector on title screen (and rewards screen)
 title_difficulty		.EQU $61 ; difficulty on title screen
 title_timer				.EQU $62 ; timer for animations on timer screen (and rewards screen)
 
-
+sound_effect_select		.EQU $63
+sound_effect_timer		.EQU $64
+sound_effect_jump_low	.EQU $65
+sound_effect_jump_high	.EQU $66
 
 
 ; add more variables here

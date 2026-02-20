@@ -276,6 +276,10 @@ reward_card_right
 	RTS
 
 reward_draw
+	; default button status
+	LDA #$01
+	STA buttons_wait
+
 	; enable rendering
 	LDA #$18
 	STA ppu_mask
@@ -504,6 +508,9 @@ reward_draw_loop
 
 	LDA #$01
 	STA buttons_wait
+	LDA #$01 ; pickup
+	STA sound_effect_select
+	JSR sound_effect
 @button7
 
 	; increment timer for animation purposes
@@ -730,6 +737,7 @@ reward_draw_exit
 
 reward_palette_data
 	.BYTE $00,$00,$01,$00,$00
+
 
 
 

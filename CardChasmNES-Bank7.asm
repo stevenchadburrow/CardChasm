@@ -27,6 +27,8 @@
 	.INCSRC CardChasmNES-String.asm
 
 	.INCSRC CardChasmNES-Game.asm
+	
+	.INCSRC CardChasmNES-Sound.asm
 
 
 	.ORG $FC00
@@ -117,6 +119,17 @@ card_deck_initial_data
 
 nmi
 	INC vblank_ready
+	PHA
+	LDA sound_effect_timer
+	BEQ nmi_exit
+	SEC
+	SBC #$01
+	STA sound_effect_timer
+	BNE nmi_exit
+	LDA #$0E
+	STA apu_status
+nmi_exit
+	PLA
 	RTI
 	
 irq

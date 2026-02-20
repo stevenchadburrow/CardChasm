@@ -424,6 +424,10 @@ title_credits_data
 	.BYTE _plus,_G,_M,_A,_I,_L,_period,_C,_O,_M,__,__,__,__,__,__
 
 title_draw
+	; default button status
+	LDA #$01
+	STA buttons_wait
+
 	; enable rendering
 	LDA #$18
 	STA ppu_mask
@@ -564,6 +568,9 @@ title_draw_loop
 	STA title_position	
 	LDA #$01
 	STA buttons_wait
+	LDA #$00 ; bong
+	STA sound_effect_select
+	JSR sound_effect
 @button3
 	LDA buttons_value
 	AND #$04 ; down
@@ -576,6 +583,9 @@ title_draw_loop
 	STA title_position
 	LDA #$01
 	STA buttons_wait
+	LDA #$00 ; bong
+	STA sound_effect_select
+	JSR sound_effect
 @button4
 	LDA buttons_value
 	AND #$02 ; left
@@ -588,6 +598,9 @@ title_draw_loop
 	DEC title_difficulty
 	LDA #$01
 	STA buttons_wait
+	LDA #$00 ; bong
+	STA sound_effect_select
+	JSR sound_effect
 @button5
 	LDA buttons_value
 	AND #$01 ; right
@@ -600,6 +613,9 @@ title_draw_loop
 	INC title_difficulty
 	LDA #$01
 	STA buttons_wait
+	LDA #$00 ; bong
+	STA sound_effect_select
+	JSR sound_effect
 @button6
 
 	; increment timer for animation purposes
