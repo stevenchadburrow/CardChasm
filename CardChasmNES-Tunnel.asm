@@ -478,7 +478,7 @@ tunnel_walk
 	AND #$01
 	STA tunnel_direction
 	CMP #$01
-	BNE @skip
+	BNE @least
 	INC enemies_position
 	LDA enemies_position
 	CMP enemies_max
@@ -490,6 +490,15 @@ tunnel_walk
 	BEQ @skip
 @decrement
 	DEC tunnel_movement
+	JMP @skip
+@least
+
+	; sound effect
+	LDA #$07 ; bounce
+	STA sound_effect_select
+	JSR sound_effect
+@sound1
+
 @skip
 	RTS
 

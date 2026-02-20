@@ -119,6 +119,16 @@ effects_draw
 
 ; normal effect
 effects_draw_normal
+
+	; sound effect
+	LDA effects_timer
+	CMP #$1D
+	BNE @sound1
+	LDA #$02 ; laser
+	STA sound_effect_select
+	JSR sound_effect
+@sound1
+
 	DEC effects_timer ; faster
 	LDA effects_timer
 	ASL A
@@ -157,6 +167,16 @@ effects_draw_normal
 
 ; fire effect
 effects_draw_fire
+
+	; sound effect
+	LDA effects_timer
+	CMP #$1D
+	BNE @sound1
+	LDA #$04 ; error
+	STA sound_effect_select
+	JSR sound_effect
+@sound1
+
 	LDA effects_timer ; y-value
 	STA math_slot_0
 	LDA #$50 ; y-value
@@ -193,6 +213,16 @@ effects_draw_fire
 
 ; lightning effect
 effects_draw_lightning
+
+	; sound effect
+	LDA effects_timer
+	CMP #$1D
+	BNE @sound1
+	LDA #$05 ; taps
+	STA sound_effect_select
+	JSR sound_effect
+@sound1
+
 	LDA #$40 ; y-value
 	STA oam_page+8
 	CLC
@@ -248,6 +278,16 @@ effects_draw_lightning
 
 ; ice effect
 effects_draw_ice
+
+	; sound effect
+	LDA effects_timer
+	CMP #$1D
+	BNE @sound1
+	LDA #$06 ; descend
+	STA sound_effect_select
+	JSR sound_effect
+@sound1
+
 	LDA effects_timer
 	LSR A
 	LSR A
@@ -327,6 +367,16 @@ effects_draw_ice_data
 
 ; shield effect
 effects_draw_shield
+
+	; sound effect
+	LDA effects_timer
+	CMP #$10
+	BNE @sound1
+	LDA #$00 ; bong
+	STA sound_effect_select
+	JSR sound_effect
+@sound1
+
 	LDA #$58 ; y-value
 	STA oam_page+8
 	STA oam_page+12
@@ -370,6 +420,16 @@ effects_draw_shield
 
 ; heart effect
 effects_draw_heart
+
+	; sound effect
+	LDA effects_timer
+	CMP #$1D
+	BNE @sound1
+	LDA #$03 ; squeak
+	STA sound_effect_select
+	JSR sound_effect
+@sound1
+
 	LDA effects_timer
 	LSR A
 	LSR A
@@ -436,6 +496,16 @@ effects_draw_heart_data
 
 ; horizontal shaking screen
 effects_shake
+
+	; sound effect
+	LDA effects_timer
+	CMP #$1C
+	BNE @sound1
+	LDA #$07 ; bounce
+	STA sound_effect_select
+	JSR sound_effect
+@sound1
+
 	LDA effects_timer
 	BNE @decrement
 	LDA #$FC ; rest position
@@ -465,3 +535,6 @@ effects_shake
 	STA effects_direction
 @exit
 	RTS
+
+
+
