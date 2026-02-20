@@ -1,6 +1,8 @@
 # CardChasm
 Deck-building linear dungeon-divering game for the NES<br>
 
+<a href="https://stevenchadburrow.itch.io/card-chasm">Link to itch.io Page</a><br>
+
 <b>Concept:</b><br>
 The concept behind Card Chasm is to be a simplified clone of <a href="https://play.google.com/store/apps/details?id=com.iqubi.dungeonandgirlsunity&hl=en-US">Dungeon & Girls</a>, an Android phone game that was fun, cute, and fairly simple.  You have a deck of cards with both battle effects and movement amounts.  Outside of combat, the cards move you forward some amount designated by the card.  Inside of combat, they attack, block, or heal.  Reach the end of the dungeon, fight the boss, get new cards, repeat.<br>
 
@@ -11,11 +13,11 @@ Some modifications I am doing here are using elemental attack types and weakness
 The target mapper used for this game is the <a href="https://www.nesdev.org/wiki/UxROM">UxROM Mapper</a>, but with a small modification to the standard by adding PRG-RAM starting at $6000.  All code is in 6502 assembly using the 'asm6' assembler found at <a href="https://www.nesdev.org/wiki/Tools">NESdev.org Tools</a>.  My own C code is used to generate pattern table data from BMP images created in <a href="https://www.gimp.org/downloads/">GIMP</a>.  One of the <a href="https://perchance.org/ai-anime-generator">Perchance AI Image Generators</a> assisted in making the enemy images and the title logo.  The emulators used for testing are <a href="https://www.mesen.ca/">Mesen</a> and my own <a href="https://github.com/stevenchadburrow/PICnes">PICnes</a>.<br>
 
 <b>To Do:</b><br>
-- Sound effects for the main portion of the game.
 - Music for all portions of the game.
 - More enemies, more polish.
 
 <b>Images:</b><br>
+<img src="CardChasmNES-Logo.png"><br>
 <img src="CardChasmNES-Screenshot-A.png"><br>
 <img src="CardChasmNES-Screenshot-B.png"><br>
 <img src="CardChasmNES-Screenshot-C.png"><br>
