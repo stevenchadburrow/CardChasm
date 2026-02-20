@@ -14,8 +14,9 @@ The target mapper used for this game is the <a href="https://www.nesdev.org/wiki
 
 <b>To Do:</b><br>
 - Music for title screen and each level.
-- More enemies, specific enemies to each level.
-- Better math, better randomization.
+- More card effects and better elemental math.
+- More enemies and specific enemies to each level.
+- Better randomization.
 
 <b>Images:</b><br>
 <img src="CardChasmNES-Logo.png"><br>
